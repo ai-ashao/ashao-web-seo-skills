@@ -1,0 +1,28 @@
+{
+  "description": "Calibration pattern: headline traffic conflict blocks PROVEN BREAKOUT and caps demand contribution; rankability may still remain TEST NOW.",
+  "scores": [
+    23,
+    10,
+    18,
+    10,
+    9,
+    6,
+    4,
+    4,
+    3
+  ],
+  "args": [
+    "--age-proof",
+    "strong",
+    "--demand-grade",
+    "breakout",
+    "--attribution-confidence",
+    "conflict",
+    "--target-keyword-count",
+    "5",
+    "--attributable-search-visits",
+    "50000",
+    "--traffic-conflict"
+  ],
+  "expected_tier": "TEST NOW"
+}

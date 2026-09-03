@@ -1,0 +1,12 @@
+{
+  "description": "Calibration pattern: <=6-month site, multiple core query rankings, >=10K attributable target-cluster traffic.",
+  "scores": [23, 10, 16, 10, 9, 6, 4, 4, 3],
+  "args": [
+    "--age-proof", "strong",
+    "--demand-grade", "breakout",
+    "--attribution-confidence", "high",
+    "--target-keyword-count", "5",
+    "--attributable-search-visits", "47000"
+  ],
+  "expected_tier": "PROVEN BREAKOUT"
+}

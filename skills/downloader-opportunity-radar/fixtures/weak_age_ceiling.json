@@ -1,0 +1,12 @@
+{
+  "description": "Calibration pattern: 12–18 month evidence can never independently trigger TEST NOW.",
+  "scores": [5, 12, 18, 12, 12, 8, 5, 4, 4],
+  "args": [
+    "--age-proof", "weak",
+    "--demand-grade", "breakout",
+    "--attribution-confidence", "high",
+    "--target-keyword-count", "5",
+    "--attributable-search-visits", "100000"
+  ],
+  "expected_tier": "WATCH"
+}

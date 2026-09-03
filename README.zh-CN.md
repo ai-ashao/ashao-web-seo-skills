@@ -15,6 +15,7 @@
 |---|---|---|
 | [`adapt-reference-site`](skills/adapt-reference-site/) | 在既有产品中重建成熟参考站的信息架构、布局节奏、交互、响应式与视觉语言，同时避免复制受保护身份元素或虚构缺失功能。 | 明确的视觉策略模式、结构对齐与产品真实性门禁、clean-room 素材边界、SEO 分阶段接入和响应式浏览器 QA。 |
 | [`serp-siege`](skills/serp-siege/) | 将用户已经选定的网站、竞品或关键词转为覆盖矩阵、有限的 First Batch 和 MVP/P1/P2 执行 Roadmap。 | 执行报告结构校验、页面与词簇绑定规则、三个工作流 fixture；机会分析保持独立。 |
+| [`downloader-opportunity-radar`](skills/downloader-opportunity-radar/) | 寻找并验证年轻域名能够排名、且完整下载意图词簇具有可归因需求的 downloader/save/export SEO 机会。 | 确定性关键词排列、流量一致性检查、带域龄/流量/政策门禁的 100 分评分器、校准 fixture 与报告模板。 |
 | [`site-opportunity-scorecard`](skills/site-opportunity-scorecard/) | 判断一个 SEO 关键词簇或产品功能应成为独立网站、现有站专区、单一页面，还是暂缓/放弃。 | 加权机会分和拆站风险分、双语报告模板、报告结构校验。 |
 | [`website-audit-scorecard`](skills/website-audit-scorecard/) | 对已上线的网站或 Web 产品评估产品质量、UX、信任、SEO、技术可靠性和变现准备度。 | 证据加权的覆盖率与置信度、关键 gate、样例 fixture 与回归测试。 |
 | [`helpful-value-audit`](skills/helpful-value-audit/) | 审计工具页、竞品页或 SERP 的用户价值、功能完整性、可靠性、差异化、排名护城河与可攻击性。 | 100 分证据化评分框架、TESTED/OBSERVED/CLAIMED/UNKNOWN 证据等级、硬性门禁、SERP 基准能力分析与校准说明。 |
@@ -35,7 +36,7 @@ mkdir -p ~/.codex/skills
 cp -R codex-skillforge/skills/site-opportunity-scorecard ~/.codex/skills/
 ```
 
-将 `site-opportunity-scorecard` 替换为所需 skill，例如 `adapt-reference-site`、`website-audit-scorecard`、`helpful-value-audit`、`technical-seo-audit`、`web-asset-pipeline`、`competitive-ui-reverse-engineering` 或 `reference-website-builder`。安装后开启新的 Codex 对话；若未立即显示，再重启 Codex。
+将 `site-opportunity-scorecard` 替换为所需 skill，例如 `adapt-reference-site`、`downloader-opportunity-radar`、`website-audit-scorecard`、`helpful-value-audit`、`technical-seo-audit`、`web-asset-pipeline`、`competitive-ui-reverse-engineering` 或 `reference-website-builder`。安装后开启新的 Codex 对话；若未立即显示，再重启 Codex。
 
 `serp-siege` 可以独立安装：
 
@@ -49,6 +50,10 @@ cp -R codex-skillforge/skills/serp-siege ~/.codex/skills/
 
 ```text
 使用 $serp-siege 把已经选定的 image compressor 方向包成有限的 First Batch 和执行 Roadmap。
+```
+
+```text
+使用 $downloader-opportunity-radar 寻找具有年轻域名排名证据和可归因意图词簇需求的下载工具机会。
 ```
 
 ```text
@@ -101,6 +106,7 @@ skills/
 ```bash
 python3 -B -m unittest discover -s skills/website-audit-scorecard/tests -v
 python3 -B -m unittest discover -s skills/serp-siege/tests -v
+python3 -B skills/downloader-opportunity-radar/scripts/validate.py
 python3 -B skills/site-opportunity-scorecard/scripts/calculate_score.py \
   skills/site-opportunity-scorecard/assets/assessment-input-template.json
 python3 -B -m unittest discover -s skills/web-asset-pipeline/tests -v
