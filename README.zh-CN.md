@@ -17,6 +17,7 @@
 | [`serp-siege`](skills/serp-siege/) | 将用户已经选定的网站、竞品或关键词转为覆盖矩阵、有限的 First Batch 和 MVP/P1/P2 执行 Roadmap。 | 执行报告结构校验、页面与词簇绑定规则、三个工作流 fixture；机会分析保持独立。 |
 | [`site-opportunity-scorecard`](skills/site-opportunity-scorecard/) | 判断一个 SEO 关键词簇或产品功能应成为独立网站、现有站专区、单一页面，还是暂缓/放弃。 | 加权机会分和拆站风险分、双语报告模板、报告结构校验。 |
 | [`website-audit-scorecard`](skills/website-audit-scorecard/) | 对已上线的网站或 Web 产品评估产品质量、UX、信任、SEO、技术可靠性和变现准备度。 | 证据加权的覆盖率与置信度、关键 gate、样例 fixture 与回归测试。 |
+| [`helpful-value-audit`](skills/helpful-value-audit/) | 审计工具页、竞品页或 SERP 的用户价值、功能完整性、可靠性、差异化、排名护城河与可攻击性。 | 100 分证据化评分框架、TESTED/OBSERVED/CLAIMED/UNKNOWN 证据等级、硬性门禁、SERP 基准能力分析与校准说明。 |
 | [`web-asset-pipeline`](skills/web-asset-pipeline/) | 将 AI、素材库、设计导出或截图中的视觉素材转为可上线的网站资源。 | 非破坏性素材审计、素材权利记录模板、格式与框架接入指南、回归测试。 |
 | [`competitive-ui-reverse-engineering`](skills/competitive-ui-reverse-engineering/) | 当你还在研究一个或多个竞品页面或截图，需要先提炼页面结构、转化与交互模式，并形成原创的 `KEEP / CHANGE / ADD / OMIT` 方案或实现计划时使用；默认只分析，不直接改代码。 | 证据分层的 UI 拆解、原创性边界、复用分析模板与素材流水线交接。 |
 | [`technical-seo-audit`](skills/technical-seo-audit/) | 审计多语言公开 URL 的技术 SEO 信号，不把通用阈值误判为缺陷。 | 统一 Markdown/JSON 报告、有边界的 SSRF 防护、交付与索引信号、robots/sitemap、JSON-LD、hreflang 与 40+ 项回归测试。 |
@@ -34,7 +35,7 @@ mkdir -p ~/.codex/skills
 cp -R codex-skillforge/skills/site-opportunity-scorecard ~/.codex/skills/
 ```
 
-将 `site-opportunity-scorecard` 替换为所需 skill，例如 `adapt-reference-site`、`website-audit-scorecard`、`technical-seo-audit`、`web-asset-pipeline`、`competitive-ui-reverse-engineering` 或 `reference-website-builder`。安装后开启新的 Codex 对话；若未立即显示，再重启 Codex。
+将 `site-opportunity-scorecard` 替换为所需 skill，例如 `adapt-reference-site`、`website-audit-scorecard`、`helpful-value-audit`、`technical-seo-audit`、`web-asset-pipeline`、`competitive-ui-reverse-engineering` 或 `reference-website-builder`。安装后开启新的 Codex 对话；若未立即显示，再重启 Codex。
 
 `serp-siege` 可以独立安装：
 
@@ -57,6 +58,10 @@ should be an independent site or a section of an existing converter site.
 
 ```text
 Use $website-audit-scorecard to audit https://example.com as a release gate.
+```
+
+```text
+使用 $helpful-value-audit 审计这个工具页对查询 "compress image to 100kb" 的帮助价值，并区分 Helpful Strength 与 Ranking Moat。
 ```
 
 ```text
@@ -100,6 +105,7 @@ python3 -B skills/site-opportunity-scorecard/scripts/calculate_score.py \
   skills/site-opportunity-scorecard/assets/assessment-input-template.json
 python3 -B -m unittest discover -s skills/web-asset-pipeline/tests -v
 python3 -B -m unittest discover -s skills/technical-seo-audit/tests -v
+python3 -B -m skillforge validate skills/helpful-value-audit
 python3 -B skills/reference-website-builder/scripts/validate_skill.py \
   skills/reference-website-builder
 ```

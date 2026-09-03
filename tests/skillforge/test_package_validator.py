@@ -470,6 +470,7 @@ class CurrentRepositorySkillTests(unittest.TestCase):
         expected = {
             "adapt-reference-site",
             "competitive-ui-reverse-engineering",
+            "helpful-value-audit",
             "reference-website-builder",
             "serp-siege",
             "site-opportunity-scorecard",
