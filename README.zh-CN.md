@@ -21,7 +21,7 @@
 | [`helpful-value-audit`](skills/helpful-value-audit/) | 审计工具页、竞品页或 SERP 的用户价值、功能完整性、可靠性、差异化、排名护城河与可攻击性。 | 100 分证据化评分框架、TESTED/OBSERVED/CLAIMED/UNKNOWN 证据等级、硬性门禁、SERP 基准能力分析与校准说明。 |
 | [`web-asset-pipeline`](skills/web-asset-pipeline/) | 将 AI、素材库、设计导出或截图中的视觉素材转为可上线的网站资源。 | 非破坏性素材审计、素材权利记录模板、格式与框架接入指南、回归测试。 |
 | [`competitive-ui-reverse-engineering`](skills/competitive-ui-reverse-engineering/) | 当你还在研究一个或多个竞品页面或截图，需要先提炼页面结构、转化与交互模式，并形成原创的 `KEEP / CHANGE / ADD / OMIT` 方案或实现计划时使用；默认只分析，不直接改代码。 | 证据分层的 UI 拆解、原创性边界、复用分析模板与素材流水线交接。 |
-| [`technical-seo-audit`](skills/technical-seo-audit/) | 审计多语言公开 URL 的技术 SEO 信号，不把通用阈值误判为缺陷。 | 统一 Markdown/JSON 报告、有边界的 SSRF 防护、交付与索引信号、robots/sitemap、JSON-LD、hreflang 与 40+ 项回归测试。 |
+| [`technical-seo-audit`](skills/technical-seo-audit/) | 按路由级索引策略审计公开工具站、SaaS、混合型或多语言站点，不把通用 SEO 阈值误判为缺陷。 | 统一 Markdown/JSON 证据、有边界的 SSRF 防护与站点爬取、profile/路由分类、抓取深度与孤页分析、canonical/内链/sitemap 一致性、重复模板信号、JSON-LD、hreflang 与 60+ 项回归测试。 |
 | [`reference-website-builder`](skills/reference-website-builder/) | 当你已经给出明确页面 URL，并希望在现有项目中实际高保真重建该页、完成响应式与交互 QA，再替换品牌、文案和临时素材以安全适配时使用。 | 页面级证据模板、必需的设计语言契约、临时素材隔离、集中式素材映射、校验工具与生产发布门禁。 |
 
 这些是可复用的工作流与决策框架，并非 Google、Lighthouse、WCAG 或 AdSense 的官方评分体系。评分必须附带当前证据和覆盖范围说明。

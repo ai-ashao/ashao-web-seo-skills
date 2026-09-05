@@ -1,69 +1,160 @@
 ---
 name: technical-seo-audit
-description: Run an evidence-led technical SEO audit of a public URL using bounded, SSRF-aware deterministic checks for HTTP delivery, robots directives, robots.txt, sitemaps, canonical URLs, page metadata, headings, static links, images, JSON-LD, html lang, and hreflang reachability/reciprocity. Use when a user asks for a technical SEO audit, multilingual SEO check, on-page SEO review, crawlability/indexability review, metadata/schema check, or a reproducible URL audit. Use website-audit-scorecard separately for product, UX, trust, monetization, or overall quality scoring. Do not use this skill to make ranking, traffic, or keyword-demand claims without independent Search Console, SERP, or keyword evidence.
+description: Run an evidence-led technical SEO audit of public URLs and bounded site inventories. Supports generic, toolsite, SaaS, hybrid, and auto profiles with page-level route classification. Checks HTTP delivery, robots directives, robots.txt, sitemaps, canonical URLs and targets, metadata, headings, static crawlable links, internal-link architecture, orphan candidates, crawl depth, sitemap/indexability/canonical consistency, duplicate template signals, JSON-LD syntax, html lang, and hreflang reachability/reciprocity. Use for technical SEO audits, SEO-first release gates, multilingual checks, crawlability/indexability reviews, and mixed tool+SaaS sites. Do not use it to claim rankings, traffic, keyword demand, HCU/helpfulness, product quality, or conversion quality without separate evidence.
 ---
 
 # Technical SEO Audit
 
-Use deterministic scripts for observable facts and reserve semantic conclusions for clearly labelled review. A missing public signal is not automatically a defect.
+Use deterministic checks for observable facts. Keep search-intent, content quality, product value, and ranking claims outside this skill unless independently evidenced.
 
-## Core rules
+## Operating model
 
-- Audit the requested URL, redirect target, and retrieved static HTML. Check robots.txt and sitemaps against the final redirect origin, and record any requested/final origin change.
-- Do not present a title length, description length, word count, H1 count, heading count, or keyword position as a universal pass/fail rule. Treat it as context for review.
-- Do not infer a target keyword from page copy and then score the page against that inference. Use a user-supplied query when available; otherwise mark intent alignment unassessed.
-- Do not claim indexation, rankings, traffic, Core Web Vitals field data, crawl coverage, or Google Search Console status from a public HTML fetch.
-- Treat `noindex`, a crawler-blocking robots rule, broken canonicalization, malformed JSON-LD, and retrieval failure as evidence to investigate. Confirm intentional exceptions with the user.
-- Treat JSON-LD syntax and declared types as observable; treat schema truthfulness and eligibility as review decisions.
-- For this portfolio, expect multilingual delivery by default. Verify `html lang`, hreflang self-reference, language-code syntax, bounded target reachability, and reciprocal alternates; do not require `x-default` universally.
-- Use only original/current evidence. Do not rely on a cached audit or a competitor’s marketing claims.
+This skill has two layers:
+
+1. **Technical SEO kernel** — rules that apply across public websites.
+2. **Policy profile + route class** — determines the expected indexability of each page without forcing an entire mixed site into one behavior.
+
+Profiles:
+
+- `generic`: conservative; does not infer indexability for unknown routes.
+- `toolsite`: SEO-first public tools and landing pages; private/system routes still excluded.
+- `saas`: marketing/content/integration pages are public; auth/app/account/transactional/system routes are expected excluded.
+- `hybrid`: first-class mode for free SEO tools + SaaS marketing + authenticated app routes.
+- `auto`: detect a bounded site profile from route evidence; report confidence and never hide the inference.
+
+Route classes:
+
+`PUBLIC_TOOL`, `MARKETING`, `SEO_LANDING`, `CONTENT`, `INTEGRATION`, `DOCS`, `AUTH`, `APP`, `ACCOUNT`, `TRANSACTIONAL`, `SYSTEM`, `UNKNOWN`.
+
+**Site profile is only a default strategy. Route class controls page-level SEO expectation.** Explicit user/product intent overrides automatic classification.
+
+## Core evidence rules
+
+- Audit requested URL, final redirect URL, static HTML, final-origin robots.txt, and bounded sitemaps.
+- Aggregate multiple `robots` and `googlebot` meta tags; do not let later tags erase earlier restrictive directives.
+- Preserve crawler-scoped `X-Robots-Tag` boundaries.
+- Detect zero, duplicate-identical, and conflicting canonical declarations. Validate a single canonical target for HTTP delivery and `noindex` unless explicitly skipped.
+- Do not use fixed title length, meta-description length, H1 count, heading count, or word-count thresholds as ranking pass/fail rules.
+- Word count is inventory only. It does not prove thin content, helpfulness, or ranking strength.
+- Script presence means rendered-DOM parity is unassessed. Do not infer parity from static word count.
+- Validate hreflang using Google-compatible language/script/region structure, self-reference, bounded target reachability, `noindex`, reciprocity, and cluster completeness. `x-default` remains optional.
+- Treat JSON-LD syntax as observable; schema truthfulness/eligibility remains review work.
+- Never claim Google indexation, GSC coverage, rankings, traffic, crawl frequency, field CWV, or demand from public HTML fetches.
+
+## SEO-first site mode
+
+Use site mode for release audits, tool sites, SaaS marketing sites, or hybrid sites:
+
+```bash
+python3 -B scripts/audit.py https://example.com \
+  --profile hybrid \
+  --site \
+  --max-pages 200
+```
+
+For a known toolsite:
+
+```bash
+python3 -B scripts/audit.py https://example.com \
+  --profile toolsite \
+  --site
+```
+
+For a known SaaS:
+
+```bash
+python3 -B scripts/audit.py https://example.com \
+  --profile saas \
+  --site
+```
+
+When the site type is unknown or mixed:
+
+```bash
+python3 -B scripts/audit.py https://example.com \
+  --profile auto \
+  --site
+```
+
+Site mode combines sitemap inventory with a bounded same-origin static crawl. It reports:
+
+- route class and expected indexability per checked URL;
+- orphan candidates (`sitemap URL + zero observed static indegree`) with explicit bounded-crawl limits;
+- crawl depth from the root for discoverable URLs;
+- broken and redirecting internal links;
+- internal links to URLs that canonicalize elsewhere;
+- sitemap URLs that redirect, return non-200, are `noindex`, or canonicalize elsewhere;
+- conflicting canonical declarations and canonical collisions;
+- duplicate titles/H1/meta descriptions across expected-indexable pages;
+- expected-indexable scripted pages missing static title/H1 as rendered-parity review candidates;
+- public routes accidentally `noindex` and private/app routes returning 200 without `noindex`.
+
+## Page mode and explicit overrides
+
+For one route:
+
+```bash
+python3 -B scripts/audit.py https://example.com/tools/pdf \
+  --profile hybrid \
+  --route-class PUBLIC_TOOL \
+  --indexability expected
+```
+
+`--indexability` accepts `auto`, `expected`, or `excluded`. Avoid a hidden boolean default: if route intent cannot be safely inferred, keep it unassessed.
+
+Use `--multilingual --validate-hreflang` only when multilingual delivery is expected. Multilingual is not assumed merely because the portfolio often uses it.
+
+## Priority model
+
+Keep evidence labels separate from business impact.
+
+- `OBSERVED`: directly fetched/parsed evidence.
+- `REVIEW`: requires intent or semantic judgement.
+- `UNASSESSED`: unavailable from current evidence.
+
+SEO-first site findings use:
+
+- `P0`: confirmed release blocker for a route expected to rank, e.g. unintended `noindex`.
+- `P1`: material discoverability/indexability/architecture defect, e.g. private route indexability leak, orphan sitemap page, sitemap noindex, conflicting canonical, broken internal link, internal noncanonical link.
+- `P2`: meaningful cleanup or template risk, e.g. redirecting internal links or duplicate metadata.
+- `P3`: optional polish/hypothesis.
+
+Do not promote schema polish, generic image-alt advice, or arbitrary metadata-length edits above crawl/index/canonical/internal-link defects.
+
+## Mixed SaaS + tool sites
+
+Do not classify the whole site as either “SEO site” or “app.” Example:
+
+```text
+/                         MARKETING      -> expected indexable
+/tools/image-downloader   PUBLIC_TOOL    -> expected indexable
+/features/bulk-download   MARKETING      -> expected indexable
+/solutions/ecommerce      SEO_LANDING    -> expected indexable
+/guides/...               CONTENT        -> expected indexable
+/pricing                  MARKETING      -> expected indexable
+/login                    AUTH           -> review / explicit policy
+/dashboard/...            APP            -> expected excluded
+/settings                 ACCOUNT        -> expected excluded
+/api/...                  SYSTEM         -> expected excluded
+```
+
+This route-level model is the default for `hybrid` and the preferred architecture for mixed acquisition + SaaS products.
 
 ## Safe retrieval boundary
 
-Run the bundled scripts only against public HTTP(S) URLs. `scripts/url_safety.py` rejects private, loopback, link-local, multicast, reserved, and non-standard-port targets, checks every redirect target, caps redirects and response bytes, and never sends credentials.
+The bundled fetcher allows only public HTTP(S) URLs on ports 80/443, rejects private/loopback/link-local/multicast/reserved destinations, revalidates redirects, caps response bytes, and never sends credentials. This reduces SSRF risk but is not a complete network-security boundary; run untrusted audits with outbound controls.
 
-This is a harm-reduction layer, not a complete network-security boundary: DNS can change after validation. Run untrusted URL audits in an environment with outbound network controls; do not repurpose these scripts as a privileged internal-network fetcher.
+## Adjacent work
 
-## Workflow
+Route separately:
 
-### 1. Establish scope
-
-Record the requested URL, production/staging status, whether the page is expected to be indexable, target country/language, and any supplied target query. Mark missing GSC, server logs, rendering access, and PageSpeed/CrUX data as unavailable rather than guessing.
-
-### 2. Run deterministic checks
-
-From this skill directory, use the unified entry point. It expects multilingual pages and validates at most 12 hreflang targets and 12 sitemap documents by default:
-
-```bash
-python3 -B scripts/audit.py https://example.com/page \
-  --expected-indexable \
-  --keyword "user-supplied query"
-```
-
-The command saves a Markdown report plus raw JSON evidence under `reports/`. The evidence distinguishes requested, final, and site-audit origins; reports sitemap documents left queued or excluded by the configured bound; and keeps crawler-scoped response directives separate. Use `--single-language` only for a deliberately single-language target, `--skip-hreflang-validation` when external alternate requests are out of scope, and `--output <path>` to choose the report path.
-
-Run `check_site.py` or `check_page.py` directly only when debugging one module. The checks do not create or modify the target site. They inspect the supplied page, its declared alternates within bounds, the origin’s `robots.txt`, and bounded sitemap documents; they do not crawl an entire site.
-
-### 3. Interpret only what the evidence supports
-
-Read `references/evidence-and-interpretation.md` before assigning priority. Separate:
-
-- `OBSERVED`: a script result or directly inspected response;
-- `REVIEW`: a human/LLM judgement needed for intent, copy, architecture, or an intentional exception;
-- `UNASSESSED`: unavailable without a browser, GSC, logs, source code, or other supplied evidence.
-
-For semantic search-intent work, require a user query, real Search Console data, or live SERP evidence. For rendered DOM, interaction, visual layout, or Core Web Vitals, use the relevant browser/performance tools separately.
-
-### 4. Produce the audit
-
-Start from the generated Markdown and use `assets/report-template.md` when expanding it into a reviewed deliverable. Include the raw JSON evidence, impact, exact remediation, owner/next check, and evidence limit for every material finding. Use `P0` only for a confirmed release blocker such as an unintended public `noindex` or crawler-wide block; do not inflate advisory items.
-
-### 5. Route adjacent work correctly
-
-- Use `$website-audit-scorecard` for a scored product, UX, trust, AdSense, or release-readiness assessment.
-- Use `$web-asset-pipeline` for image performance, responsive variants, and image-source rights.
-- Use browser/network checks for JavaScript rendering, visual validation, and user-flow testing.
+- Search demand, SERP competition, keyword mapping -> SERP/keyword evidence workflow.
+- HCU/helpfulness/user value -> helpful-value audit.
+- Product UX, trust, monetization, conversion -> product/site scorecard.
+- Image optimization and asset rights -> web asset pipeline.
+- Rendered DOM, interaction, visual validation, CWV -> browser/performance tooling.
+- GSC index coverage and query performance -> Search Console evidence.
 
 ## Completion standard
 
-A complete audit contains the target and conditions, raw script outputs or cited observations, evidence classification, prioritized findings, explicit unassessed areas, and a re-check method. It never turns generic SEO folklore into a verified defect.
+A complete report states target, requested/effective profile, route class, expected indexability, deterministic evidence, site-mode findings when requested, evidence limits, and exact re-check method. Automatic profile/route inference must be visible in the report, never silently treated as product truth.

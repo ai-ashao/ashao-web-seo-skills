@@ -130,12 +130,18 @@ class PageCheckTests(unittest.TestCase):
 
     def test_static_link_inventory_does_not_claim_link_validation(self):
         html = '<a href="/one">One</a><a href="https://other.example/two">Two</a>'
-        check = analyze_html(html, "https://example.com/", None, False)["static_link_inventory"]
+        check = analyze_html(html, "https://example.com/", None, False)["static_links"]
         self.assertEqual(check["internal"], 1)
         self.assertEqual(check["external"], 1)
 
     @patch("check_page.safe_fetch", side_effect=UnsafeUrlError("blocked alternate"))
     def test_hreflang_validation_records_unsafe_target(self, fetch):
-        result = validate_hreflang_targets([{"hreflang": "en", "href": "http://127.0.0.1/"}], "https://example.com/", 5, 5)
+        result = validate_hreflang_targets(
+            [{"hreflang": "en", "href": "http://127.0.0.1/"}],
+            "https://example.com/",
+            {"en"},
+            5,
+            5,
+        )
         self.assertEqual(result["status"], "warn")
         self.assertIn("blocked alternate", result["results"][0]["error"])

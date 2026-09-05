@@ -4,32 +4,32 @@
 
 | Label | Meaning | Examples |
 | --- | --- | --- |
-| `OBSERVED` | Directly returned by a script or inspected response. | HTTP 200, `noindex`, canonical URL, JSON-LD parse error. |
-| `REVIEW` | Needs context or a human/LLM decision. | Whether a canonical is intentional; whether page copy matches the target query. |
-| `UNASSESSED` | Cannot be established from the available data. | Index coverage, GSC queries, rendered client state, field CWV. |
+| `OBSERVED` | Direct response/parser evidence. | HTTP 200, `noindex`, canonical target, orphan candidate within the bounded graph. |
+| `REVIEW` | Needs product/SEO context. | Whether consolidation is intentional; whether docs should index; query intent. |
+| `UNASSESSED` | Cannot be established from current evidence. | GSC index coverage, rendered parity, crawl frequency, field CWV. |
 
 ## Severity discipline
 
-| Priority | Use only when | Example |
+| Priority | Use only when | Examples |
 | --- | --- | --- |
-| `P0` | A confirmed unintended blocker affects an in-scope production route. | Production page expected to rank sends `noindex`; robots blocks all target crawlers. |
-| `P1` | Observable defect materially impairs discoverability or correct representation. | Broken final canonical, malformed required JSON-LD, inaccessible intended sitemap. |
-| `P2` | A meaningful improvement needs product or content context. | Missing useful meta description; ambiguous internal-link path. |
-| `P3` | Optional polish or a hypothesis. | Rewording an otherwise truthful title. |
+| `P0` | Confirmed unintended blocker affects a route expected to rank. | Public tool/landing page has `noindex`. |
+| `P1` | Material discoverability/indexability/architecture defect. | Private app route indexability leak, orphan sitemap page, conflicting canonical, sitemap noindex, broken internal link. |
+| `P2` | Meaningful cleanup/template risk. | Redirecting internal links, duplicate titles across public template pages. |
+| `P3` | Optional polish or hypothesis. | Non-critical schema or wording cleanup. |
 
-Do not assign priority without stating the production expectation. A `noindex` page can be intentional; an absent sitemap can be acceptable for a small private or non-indexable site.
+Priority requires route intent. Site profile alone is not enough.
 
 ## Interpretation rules
 
-- Treat `<title>` and meta-description character counts as display considerations, not ranking thresholds.
-- Treat H1/heading counts as structure observations. HTML can validly contain multiple headings; judge clarity against the page task.
-- Treat word count as a coverage observation. It does not establish thin content, helpfulness, or demand.
-- Treat static HTML image-alt checks as incomplete when client rendering is detected. Empty `alt` can be correct for decorative images.
-- Treat JSON-LD as a machine-readable representation, not a ranking guarantee. Distinguish declared/top-level types from nested entity types, and verify that all claims are truthful to the visible product.
-- Treat `html lang` and hreflang syntax, canonical-aware self-reference, primary-language consistency, HTTP reachability, and reciprocal declarations as observable. Treat language-market mapping and `x-default` necessity as product/SEO review decisions.
-- Treat a target URL missing from a bounded sitemap sample as review-only; the sitemap may be partitioned or intentionally exclude the route.
-- Treat a valid but empty sitemap as review evidence, not a successful inventory signal.
-- Treat HTTP delivery, meta robots, Googlebot meta, and only the applicable crawler scope of `X-Robots-Tag` together when assessing indexability intent.
-- Treat static link counts as inventory only. They do not prove link health, crawl depth, anchor quality, or orphan status.
-- Do not evaluate target-query alignment without a user-supplied query or independently gathered SERP/GSC evidence.
-- Do not describe a public fetch as crawl/index verification.
+- Multiple robots/meta directives are aggregated; restrictive directives must not be overwritten by later tags.
+- Conflicting canonical tags are defects to investigate; a single canonical target should be fetched and checked for clean delivery/noindex.
+- Canonical absence is not automatically a failure, but SEO-first template pages should be reviewed for duplicate URL variants.
+- Sitemap URLs should represent intended canonical public URLs. Redirect/noindex/noncanonical sitemap entries are architecture findings.
+- Orphan status means “sitemap URL with zero observed static indegree in the bounded crawl,” not proof of zero links anywhere on the web or in rendered DOM.
+- Crawl depth is an observation. Do not invent a universal maximum depth rule.
+- Internal-link status/redirect/canonical checks outrank generic image-alt or schema polish in SEO-first release work.
+- Hreflang validation covers supported structural form, self-reference, reachability, noindex, reciprocity, and bounded cluster completeness. It does not prove international targeting success.
+- Script presence leaves rendered parity unassessed. If an expected-indexable scripted page lacks static title/H1, prioritize browser verification.
+- Duplicate metadata is a template-risk signal, not automatic proof of duplicate content.
+- Private/app routes without `noindex` are high priority under SaaS/hybrid policy, but access control and product intent still matter.
+- Do not evaluate target-query alignment without a supplied query, live SERP evidence, or GSC evidence.

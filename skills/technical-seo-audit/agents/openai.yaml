@@ -1,4 +1,4 @@
 interface:
   display_name: "Technical SEO Audit"
-  short_description: "Audit multilingual technical SEO with bounded evidence checks."
-  default_prompt: "Use $technical-seo-audit to audit this multilingual public URL and save a reviewed evidence report."
+  short_description: "Audit technical SEO with route-level site policy."
+  default_prompt: "Use $technical-seo-audit to audit this public site. Classify route intent, prefer hybrid/auto when the site mixes free tools and SaaS, run bounded site mode for release audits, and save an evidence-led report."
