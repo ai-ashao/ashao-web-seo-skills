@@ -14,6 +14,7 @@
 | Skill | 适用场景 | 确定性支持 |
 |---|---|---|
 | [`adapt-reference-site`](skills/adapt-reference-site/) | 在既有产品中重建成熟参考站的信息架构、布局节奏、交互、响应式与视觉语言，同时避免复制受保护身份元素或虚构缺失功能。 | 明确的视觉策略模式、结构对齐与产品真实性门禁、clean-room 素材边界、SEO 分阶段接入和响应式浏览器 QA。 |
+| [`ai-citation-research`](skills/ai-citation-research/) | 研究网站在 AI 与网页搜索来源集中的表现，并把来源差距转化为小而明确的 SEO/GEO 行动计划。 | 稳定的自然语言问题集、来源出现率分析、竞品重复来源证据、机会分类与方法边界。 |
 | [`serp-siege`](skills/serp-siege/) | 将用户已经选定的网站、竞品或关键词转为覆盖矩阵、有限的 First Batch 和 MVP/P1/P2 执行 Roadmap。 | 执行报告结构校验、页面与词簇绑定规则、三个工作流 fixture；机会分析保持独立。 |
 | [`downloader-opportunity-radar`](skills/downloader-opportunity-radar/) | 寻找并验证年轻域名能够排名、且完整下载意图词簇具有可归因需求的 downloader/save/export SEO 机会。 | 确定性关键词排列、流量一致性检查、带域龄/流量/政策门禁的 100 分评分器、校准 fixture 与报告模板。 |
 | [`site-opportunity-scorecard`](skills/site-opportunity-scorecard/) | 判断一个 SEO 关键词簇或产品功能应成为独立网站、现有站专区、单一页面，还是暂缓/放弃。 | 加权机会分和拆站风险分、双语报告模板、报告结构校验。 |
@@ -36,7 +37,7 @@ mkdir -p ~/.codex/skills
 cp -R codex-skillforge/skills/site-opportunity-scorecard ~/.codex/skills/
 ```
 
-将 `site-opportunity-scorecard` 替换为所需 skill，例如 `adapt-reference-site`、`downloader-opportunity-radar`、`website-audit-scorecard`、`helpful-value-audit`、`technical-seo-audit`、`web-asset-pipeline`、`competitive-ui-reverse-engineering` 或 `reference-website-builder`。安装后开启新的 Codex 对话；若未立即显示，再重启 Codex。
+将 `site-opportunity-scorecard` 替换为所需 skill，例如 `adapt-reference-site`、`ai-citation-research`、`downloader-opportunity-radar`、`website-audit-scorecard`、`helpful-value-audit`、`technical-seo-audit`、`web-asset-pipeline`、`competitive-ui-reverse-engineering` 或 `reference-website-builder`。安装后开启新的 Codex 对话；若未立即显示，再重启 Codex。
 
 `serp-siege` 可以独立安装：
 

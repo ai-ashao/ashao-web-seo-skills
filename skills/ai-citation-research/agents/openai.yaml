@@ -1,0 +1,15 @@
+interface:
+  display_name: ai citation research
+  short_description: Research how a website appears in AI/web-search source sets.
+    Use when comparing a site against sources surfaced for natural-language user questions,
+    finding repeated competitor pages, and turning the gaps into a small SEO/GEO action
+    plan.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true

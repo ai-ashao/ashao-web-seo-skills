@@ -469,6 +469,7 @@ class CurrentRepositorySkillTests(unittest.TestCase):
         skills_root = repository_root / "skills"
         expected = {
             "adapt-reference-site",
+            "ai-citation-research",
             "competitive-ui-reverse-engineering",
             "downloader-opportunity-radar",
             "helpful-value-audit",
