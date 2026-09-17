@@ -44,6 +44,14 @@ Planning Confidence describes how complete the execution inputs are. It is not a
 - **Major unknowns:**
 - **Research coverage:**
 
+## Evidence Dataset
+
+Include this section when structured exports or first-party query datasets were supplied. Omit it when none were supplied.
+
+| Dataset | Source | Scope | Market | Data Date | Metric Semantics | Evidence |
+|---|---|---|---|---|---|---|
+| competitor-a-top-pages.csv | Ahrefs | competitor Top Pages | US/en | YYYY-MM-DD or `MISSING` | third-party traffic estimate; relative use only | `USER_SUPPLIED_THIRD_PARTY`: supplied export |
+
 ## Competitor Map
 
 | Competitor | Positioning | Main Tool | Coverage | Strength | Weakness | Evidence |
@@ -56,9 +64,17 @@ Planning Confidence describes how complete the execution inputs are. It is not a
 |---|---|---|---|---|---|---|---|
 | | `CORE` | | | | `NEW_TOOL_PAGE` | `P0` | |
 
+## Demand Evidence Map
+
+| Cluster | Demand Proof | Sources | Metric Context | Strength | Evidence |
+|---|---|---|---|---|---|
+| cluster-name | repeated competitor Top Pages / queries | competitor-a; competitor-b | traffic/position/market/date summary | `STRONG` / `MEDIUM` / `WEAK` / `MISSING` | `USER_SUPPLIED_THIRD_PARTY`: source rows |
+
 ## Feature Coverage Map
 
-| Feature | Competitor A | Competitor B | Competitor C | Candidate | Priority | Evidence |
+Use one competitor column per actually researched direct competitor (normally 1–5). Do not invent empty competitors just to fill a fixed schema.
+
+| Feature | Competitor A | Competitor B | ... | Candidate | Priority | Evidence |
 |---|---|---|---|---|---|---|
 | | | | | | | |
 
@@ -75,6 +91,20 @@ Planning Confidence describes how complete the execution inputs are. It is not a
 | `NEW_TOOL_PAGE` | /example | | cluster-name | | | | `P0` | |
 | `SAME_PAGE` | | /example | synonym-cluster | | | | `HOLD` | merge into parent |
 | `REJECT` | | /example | thin-permutation | | | | `REJECT` | duplicate intent |
+
+### Optional Page Family Map insertion
+
+Include this section when multiple indexable pages share one scalable template or entity/detail archetype. Insert it after `SEO Page Map` (and before Page Pattern Enhancement if both are present).
+
+```markdown
+## Page Family Map
+
+| Family | Type | URL Pattern | Bound Clusters | Representative Instances | Initial Instances | Shared Core | Priority | Evidence |
+|---|---|---|---|---|---:|---|---|---|
+| font-detail | `TEMPLATE` | /font/{slug} | font-detail | Inter; Roboto; Lato | 150 | font metadata/detail template | `P0` | `USER_SUPPLIED_THIRD_PARTY`: competitor/entity evidence |
+```
+
+`Initial Instances` is separate from the normal First Batch search-entrance count. Do not list hundreds of mechanically repeated instances as hundreds of independent product decisions.
 
 ## First Batch
 
@@ -125,6 +155,24 @@ State what the first version explicitly does not need.
 - **Success condition:**
 - **If it fails:** [narrow, reorder, or adjust implementation]
 - **First Batch re-evaluation trigger:**
+```
+
+### Optional Page Pattern Enhancement insertion
+
+Include the following section **only** when the conditional benchmark in `page-type-benchmark.md` actually ran. Insert it immediately after `SEO Page Map`. Omit it entirely when the trigger did not fire.
+
+```markdown
+## Page Pattern Enhancement
+
+- **Trigger:** [specific unresolved page-structure question]
+- **Benchmark Scope:** [1–3 strategic page templates; 1–2 cross-vertical benchmark sites total]
+
+| Page Template | Benchmark Source | Extracted Pattern | Transfer Decision | Candidate Adaptation | Evidence |
+|---|---|---|---|---|---|
+| | | | `ADOPT` / `ADAPT` / `REJECT` | | `LIVE_PUBLIC_OBSERVATION`: source + `MODEL_INFERENCE`: transfer rationale |
+
+- **Reusable Patterns Kept:** [1–3 total; do not exceed 3]
+- **Scope Effect:** `STRUCTURE_ONLY` — no new cluster, page, priority promotion, or First Batch expansion
 ```
 
 The report may reject or defer individual pages and features, but it must not output `GO`, `CONDITIONAL_GO`, `NO_GO`, opportunity scores, separation-risk scores, or a verdict on whether the whole project should proceed.

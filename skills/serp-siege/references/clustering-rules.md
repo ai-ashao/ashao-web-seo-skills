@@ -36,6 +36,16 @@ Every cluster needs a stable name, one primary keyword, one user intent, support
 - Treat an adjacent tool as a new cluster when it solves a different primary task, even if it shares the same processing core.
 - Use `CONTENT_SUPPORT` when the dominant intent is explanatory and a tool page alone would not satisfy it.
 
+## Cluster versus scaled instance
+
+Do not confuse a searchable entity instance with a distinct product/search-intent cluster.
+
+- If only the entity/name/data changes while task, workflow, controls, template, and completion state remain the same, prefer one cluster plus a `TEMPLATE` Page Family with multiple instances.
+- If input/output, controls, expected result, or SERP changes materially, keep distinct clusters even when those pages later share one implementation family.
+- Preserve representative instance keywords/URLs as evidence; do not throw them away merely because they share a family.
+
+See `page-family-rules.md` after clustering.
+
 ## Cannibalization test
 
 Prefer one page when the candidate pages would have substantially the same:

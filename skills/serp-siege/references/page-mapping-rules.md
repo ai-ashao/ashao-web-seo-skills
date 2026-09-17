@@ -41,3 +41,9 @@ Before proposing a URL, state:
 7. evidence and confidence.
 
 If distinct user value or evidence cannot be stated, choose `SAME_PAGE` or `REJECT`. For `SAME_PAGE`, name the canonical parent URL.
+
+## Family assignment after page decisions
+
+After cluster/page decisions are stable, group repeated implementations into Page Families with `page-family-rules.md`.
+
+Family assignment does not merge distinct search-intent clusters. It only records that multiple approved pages share one reusable template/data pipeline. Conversely, entity/detail instances that do not require distinct product decisions can be represented by one family plus representative instances rather than one SEO Page Map row per entity.
