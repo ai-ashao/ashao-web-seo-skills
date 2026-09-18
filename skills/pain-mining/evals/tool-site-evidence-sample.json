@@ -1,0 +1,26 @@
+[
+  {"id":"M01","type":"A_USER_REQUEST","thread_id":"md-automate-docx","pain_cluster":"MD_STYLE_AND_WORKFLOW","concrete_consequence":true,"workaround":true,"recent_24m":false,"payment_or_paid_switch":false},
+  {"id":"M02","type":"A_USER_REQUEST","thread_id":"md-corporate-template","pain_cluster":"MD_STYLE_AND_WORKFLOW","concrete_consequence":true,"workaround":true,"recent_24m":false,"payment_or_paid_switch":false},
+  {"id":"M03","type":"F_SECONDHAND_OR_AMBIGUOUS","thread_id":"md-private-local","pain_cluster":"MD_PRIVACY","concrete_consequence":false,"workaround":false,"recent_24m":true,"payment_or_paid_switch":false},
+  {"id":"M04","type":"E_DEVELOPER_PROMO","thread_id":"md-math-word","pain_cluster":"MD_EQUATIONS","concrete_consequence":false,"workaround":false,"recent_24m":true,"payment_or_paid_switch":false},
+
+  {"id":"I01","type":"A_USER_REQUEST","thread_id":"img-bulk-phone","pain_cluster":"IMG_BATCH","concrete_consequence":true,"workaround":false,"recent_24m":true,"payment_or_paid_switch":false},
+  {"id":"I02","type":"A_USER_REQUEST","thread_id":"img-batch-quality","pain_cluster":"IMG_BATCH","concrete_consequence":true,"workaround":true,"recent_24m":false,"payment_or_paid_switch":false},
+  {"id":"I03","type":"A_USER_REQUEST","thread_id":"img-exif-archive","pain_cluster":"IMG_METADATA","concrete_consequence":true,"workaround":true,"recent_24m":false,"payment_or_paid_switch":false},
+  {"id":"I04","type":"B_FIRSTHAND_COMPLAINT","thread_id":"img-upload-too-large","pain_cluster":"IMG_DESTINATION_LIMIT","concrete_consequence":true,"workaround":false,"recent_24m":false,"payment_or_paid_switch":false},
+
+  {"id":"S01","type":"A_USER_REQUEST","thread_id":"stl-lifelike-photo","pain_cluster":"STL_PHOTO_QUALITY","concrete_consequence":true,"workaround":true,"recent_24m":true,"payment_or_paid_switch":false},
+  {"id":"S02","type":"A_USER_REQUEST","thread_id":"stl-png-help","pain_cluster":"STL_WORKAROUND_CHAIN","concrete_consequence":true,"workaround":true,"recent_24m":true,"payment_or_paid_switch":false},
+  {"id":"S03","type":"A_USER_REQUEST","thread_id":"stl-logo-extrude","pain_cluster":"STL_WORKAROUND_CHAIN","concrete_consequence":true,"workaround":true,"recent_24m":false,"payment_or_paid_switch":false},
+  {"id":"S04","type":"E_DEVELOPER_PROMO","thread_id":"stl-depth-research","pain_cluster":"STL_PHOTO_QUALITY","concrete_consequence":false,"workaround":false,"recent_24m":false,"payment_or_paid_switch":false},
+
+  {"id":"D01","type":"A_USER_REQUEST","thread_id":"dl-thumbnails-fullres","pain_cluster":"DL_FULL_RESOLUTION","concrete_consequence":true,"workaround":true,"recent_24m":false,"payment_or_paid_switch":false},
+  {"id":"D02","type":"A_USER_REQUEST","thread_id":"dl-fullres-software","pain_cluster":"DL_FULL_RESOLUTION","concrete_consequence":true,"workaround":true,"recent_24m":false,"payment_or_paid_switch":false},
+  {"id":"D03","type":"A_USER_REQUEST","thread_id":"dl-entire-site-media","pain_cluster":"DL_BULK","concrete_consequence":true,"workaround":true,"recent_24m":false,"payment_or_paid_switch":false},
+
+  {"id":"Q01","type":"B_FIRSTHAND_COMPLAINT","thread_id":"qr-expired-print","pain_cluster":"QR_EXPIRY_PAYWALL","concrete_consequence":true,"workaround":false,"recent_24m":false,"payment_or_paid_switch":true},
+  {"id":"Q02","type":"A_USER_REQUEST","thread_id":"qr-privacy","pain_cluster":"QR_PRIVACY","concrete_consequence":false,"workaround":false,"recent_24m":false,"payment_or_paid_switch":false},
+  {"id":"Q03","type":"A_USER_REQUEST","thread_id":"qr-bulk-300","pain_cluster":"QR_BULK","concrete_consequence":true,"workaround":true,"recent_24m":false,"payment_or_paid_switch":true},
+  {"id":"Q04","type":"A_USER_REQUEST","thread_id":"qr-dynamic-pdf","pain_cluster":"QR_DYNAMIC_WORKFLOW","concrete_consequence":true,"workaround":false,"recent_24m":true,"payment_or_paid_switch":false},
+  {"id":"Q05","type":"B_FIRSTHAND_COMPLAINT","thread_id":"qr-misleading-redirect","pain_cluster":"QR_EXPIRY_PAYWALL","concrete_consequence":true,"workaround":true,"recent_24m":false,"payment_or_paid_switch":false}
+]

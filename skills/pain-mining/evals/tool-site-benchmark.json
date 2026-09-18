@@ -1,0 +1,26 @@
+{
+  "version": "0.2",
+  "date": "2026-09-18",
+  "queries": {
+    "initial": 30,
+    "initial_good_or_ok": 22,
+    "initial_usable_rate": 0.733,
+    "reframe": 6,
+    "reframe_good_or_ok": 5,
+    "total": 36,
+    "total_good_or_ok": 27,
+    "total_usable_rate": 0.75
+  },
+  "primary_threads": {
+    "fetched": 20,
+    "user_origin": 17,
+    "developer_promo_or_ambiguous": 3
+  },
+  "seeds": [
+    {"seed":"markdown to word converter","initial_usable":"5/6","reframe":false},
+    {"seed":"image compressor","initial_usable":"5/6","reframe":false},
+    {"seed":"image to stl","initial_usable":"6/6","reframe":false},
+    {"seed":"website image downloader","initial_usable":"1/6","reframe_usable":"5/6","reframe":true},
+    {"seed":"qr code generator","initial_usable":"5/6","reframe":false,"note":"not a valid negative control; genuine pains were abundant"}
+  ]
+}
