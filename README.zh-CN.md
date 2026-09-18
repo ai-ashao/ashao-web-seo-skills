@@ -1,4 +1,6 @@
-# Codex Skillforge — 精简版
+# ashao-web-seo-skills
+
+[ashao](https://github.com/ai-ashao) 维护的网站建设与 SEO Skills 集合。
 
 这个仓库只保留**真正需要固定流程、证据契约或确定性脚本**的 Skill。目标不是让 Skill 越多越好，而是让 AI 在关键决策上少犯重复错误，同时保留正常推理空间。
 

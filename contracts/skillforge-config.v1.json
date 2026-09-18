@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/ai-ashao/codex-skillforge/contracts/skillforge-config.v1.json",
+  "$id": "https://github.com/ai-ashao/ashao-web-seo-skills/contracts/skillforge-config.v1.json",
   "title": "SkillForge per-Skill metadata v1",
   "type": "object",
   "additionalProperties": false,

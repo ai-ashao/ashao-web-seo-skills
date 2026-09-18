@@ -17,7 +17,7 @@ MAX_REDIRECTS = 5
 MAX_RESPONSE_BYTES = 2_000_000
 ALLOWED_PORTS = {80, 443}
 DEFAULT_HEADERS = {
-    "User-Agent": "CodexTechnicalSeoAudit/2.0 (+https://github.com/ai-ashao/codex-skillforge)",
+    "User-Agent": "CodexTechnicalSeoAudit/2.0 (+https://github.com/ai-ashao/ashao-web-seo-skills)",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Language": "en-US,en;q=0.5",
 }

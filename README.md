@@ -1,4 +1,6 @@
-# Codex Skillforge — Consolidated
+# ashao-web-seo-skills
+
+Web building and SEO Skills curated by [ashao](https://github.com/ai-ashao).
 
 This repository keeps only workflows that benefit from fixed evidence contracts, deterministic validation, or a genuinely separate decision stage. More Skills are not inherently better; unnecessary Skills constrain normal model reasoning and create routing overlap.
 
