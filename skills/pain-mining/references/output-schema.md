@@ -1,4 +1,4 @@
-# Structured Output Schema — v0.2
+# Structured Output Schema — v0.3
 
 Use this structure internally when possible.
 
@@ -15,21 +15,33 @@ Use this structure internally when possible.
   "corpus": {
     "queries_run": 0,
     "query_reframes": 0,
+    "source_widening_lanes": [],
     "unique_threads": 0,
     "evidence_items": 0,
     "user_origin_items": 0,
     "developer_promo_items": 0,
-    "ambiguous_items": 0
+    "ambiguous_items": 0,
+    "pain_density": 0,
+    "promotion_contamination": 0,
+    "evidence_shape": "BROAD|NARROW|SPARSE"
   },
   "query_performance": [
     {
       "query": "",
       "batch": 1,
-      "framing": "PRODUCT_TERM|TASK_LANGUAGE|CONSTRAINT|WORKAROUND|COMMUNITY_RESTRICTED",
+      "framing": "PRODUCT_TERM|TASK_LANGUAGE|CONSTRAINT|WORKAROUND|COMMUNITY_RESTRICTED|ECOSYSTEM",
       "relevant_results": 0,
       "inspected_results": 0,
       "yield": "GOOD|OK|POOR",
       "reframe_of": null
+    }
+  ],
+  "source_widening": [
+    {
+      "source_type": "REDDIT_ECOSYSTEM|GITHUB_ISSUES|STACK_EXCHANGE|APP_REVIEW|SPECIALIST_FORUM",
+      "reason": "",
+      "relevant_results": 0,
+      "user_origin_threads": 0
     }
   ],
   "pain_clusters": [

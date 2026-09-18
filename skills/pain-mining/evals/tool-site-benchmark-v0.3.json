@@ -1,0 +1,19 @@
+{
+  "version": "0.3",
+  "date": "2026-09-18",
+  "initial_queries": 34,
+  "adaptive_reframe_queries": 10,
+  "total_queries": 44,
+  "primary_threads_fetched": 20,
+  "primary_user_origin_threads": 19,
+  "primary_developer_promo_threads": 1,
+  "seeds": [
+    {"seed":"color palette generator","observed_shape":"NARROW","key_learning":"real jobs exist but cluster recurrence is fragmented"},
+    {"seed":"chart maker","observed_shape":"SPARSE","key_learning":"generic noun underperforms; ecosystem/source widening required"},
+    {"seed":"pinterest board downloader","observed_shape":"NARROW","key_learning":"platform-native phrases outperform SEO product noun"},
+    {"seed":"background remover","observed_shape":"NARROW","key_learning":"quality fidelity, batch, local processing, and shadow preservation dominate"},
+    {"seed":"json formatter","observed_shape":"NARROW","key_learning":"large-file, diff, and extension-trust jobs outperform generic formatter phrasing"},
+    {"seed":"word counter","observed_shape":"NARROW","key_learning":"generic tool is low-friction but citation-exclusion is a real subtask"},
+    {"seed":"text case converter","observed_shape":"SPARSE","key_learning":"high relevance can coexist with low pain density; valid negative control"}
+  ]
+}

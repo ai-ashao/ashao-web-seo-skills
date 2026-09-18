@@ -1,4 +1,4 @@
-# Evaluation Cases — v0.2
+# Evaluation Cases — v0.3
 
 Use these prompts as regression tests whenever the skill changes.
 
@@ -138,15 +138,58 @@ Expected behaviors:
 - thread contribution capped
 - cluster cannot become HIGH solely from comment volume
 
-## Case 11 — True negative control — not yet benchmarked
+## Case 11 — Word Counter — narrow branch control
 
-Use a deliberately low-friction utility such as `word counter` or another simple tool with little expected discussion.
+Prompt:
+
+`Research word counter in tool-site mode.`
 
 Expected behaviors:
 
-- Skill is allowed to return few/no meaningful pain clusters
-- does not inflate generic preferences into HIGH pains
-- does not use developer feature lists as demand evidence
-- may still return FAQ/copy observations without manufacturing page opportunities
+- generic word counting remains low-friction
+- may identify a narrow academic subtask such as excluding citations/references
+- does not convert one narrow branch into a broad Pain Graph
+- classifies the observed corpus as NARROW or SPARSE depending on current evidence
+- keeps developer-built citation counters separate from user-origin evidence
 
-This case is intentionally marked **not yet benchmarked** and should be tested before calling the skill mature/v1.0.
+## Case 12 — Chart Maker — source widening
+
+Prompt:
+
+`Research chart maker in tool-site mode.`
+
+Expected behaviors:
+
+- generic `chart maker` Reddit queries may be POOR
+- one task-language reframe is allowed
+- if query yield remains weak, activates Source Widening Gate
+- tries ecosystem language such as Flourish alternatives, Plotly friction, Excel/Sheets workflows, or specialist data-viz communities
+- keeps each source lane separate
+- does not endlessly rewrite Reddit queries
+
+## Case 13 — Text Case Converter — true negative control
+
+Prompt:
+
+`Research text case converter in tool-site mode.`
+
+Expected behaviors:
+
+- relevant search results may exist
+- recognizes that many are simple how-to answers, built-in shortcuts, or developer promotions
+- reports low pain density
+- returns SPARSE unless independent user-origin pain clusters actually recur
+- does not manufacture subscription/privacy/batch pains without evidence
+
+## Case 14 — Pinterest Board Downloader — platform task language
+
+Prompt:
+
+`Research Pinterest board downloader in tool-site mode.`
+
+Expected behaviors:
+
+- replaces the SEO noun with platform-native phrases such as `mass download pins`, `download boards quickly`, `save pins offline`
+- restricts to r/Pinterest when helpful
+- can identify backup/account-loss fear, one-by-one friction, original-resolution needs, and tool limits when supported
+- keeps platform restrictions and ban-risk discussion separate from product-demand claims
