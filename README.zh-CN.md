@@ -4,10 +4,11 @@
 
 这个仓库只保留**真正需要固定流程、证据契约或确定性脚本**的 Skill。目标不是让 Skill 越多越好，而是让 AI 在关键决策上少犯重复错误，同时保留正常推理空间。
 
-## 活跃 Skill（6 个）
+## 活跃 Skill（7 个）
 
 | Skill | 只回答什么 | 什么时候用 |
 |---|---|---|
+| `pain-mining` | **PAIN**：用户反复遇到什么问题、怎么凑合解决、有哪些产品缺口？ | 工具站选品、功能差异化、页面机会前置研究 |
 | `site-opportunity-scorecard` | **WHERE**：独立站、专区、单页还是不做？ | 架构尚未决定 |
 | `serp-siege` | **WHAT**：哪些 Page Families / SEO MVP 页面先做？ | 方向已经决定 |
 | `reference-website-builder` | **HOW**：参考页怎么分析、做原型、迁入真实项目？ | UI/交互/参考站任务 |
@@ -26,7 +27,10 @@
 ## 推荐工作流
 
 ```text
-Idea / competitor
+Idea / problem
+       ↓
+pain-mining（需要用户痛点/替代方案证据时）
+PAIN: users struggle with what, and how are they coping?
        ↓
 site-opportunity-scorecard
 WHERE should it live?
@@ -46,6 +50,8 @@ Does the page genuinely satisfy the task?
 Launch / iterate from GSC and product data
 ```
 
+`pain-mining` 是 **SEO 之前的用户证据层**。它可以输出 Pain Graph、Workaround Chain、Feature Gap 和 `PAGE_CANDIDATE`，但不能把 Reddit 里的重复讨论当成搜索量证据。页面候选仍需在下游用竞品 Top Pages、Ahrefs/Semrush 和 SERP 验证。
+
 `web-asset-pipeline` 在任何需要生产素材的阶段按需调用。
 
 ## 新建 Skill 的门槛
@@ -61,6 +67,7 @@ Launch / iterate from GSC and product data
 ## 验证
 
 ```bash
+python3 -B skills/pain-mining/scripts/score_evidence.py skills/pain-mining/evals/tool-site-evidence-sample.json
 python3 -B -m unittest discover -s skills/site-opportunity-scorecard/tests -v
 python3 -B -m unittest discover -s skills/serp-siege/tests -v
 python3 -B skills/reference-website-builder/scripts/validate_skill.py skills/reference-website-builder

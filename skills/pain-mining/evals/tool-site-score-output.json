@@ -1,0 +1,142 @@
+[
+  {
+    "pain_cluster": "DL_BULK",
+    "confidence": "LOW",
+    "independent_threads": 1,
+    "user_origin_threads": 1,
+    "evidence_items": 1,
+    "user_origin_items": 1,
+    "developer_promo_items": 0,
+    "evidence_score": 4.0
+  },
+  {
+    "pain_cluster": "DL_FULL_RESOLUTION",
+    "confidence": "MEDIUM",
+    "independent_threads": 2,
+    "user_origin_threads": 2,
+    "evidence_items": 2,
+    "user_origin_items": 2,
+    "developer_promo_items": 0,
+    "evidence_score": 8.0
+  },
+  {
+    "pain_cluster": "IMG_BATCH",
+    "confidence": "MEDIUM",
+    "independent_threads": 2,
+    "user_origin_threads": 2,
+    "evidence_items": 2,
+    "user_origin_items": 2,
+    "developer_promo_items": 0,
+    "evidence_score": 8.0
+  },
+  {
+    "pain_cluster": "IMG_DESTINATION_LIMIT",
+    "confidence": "LOW",
+    "independent_threads": 1,
+    "user_origin_threads": 1,
+    "evidence_items": 1,
+    "user_origin_items": 1,
+    "developer_promo_items": 0,
+    "evidence_score": 4.0
+  },
+  {
+    "pain_cluster": "IMG_METADATA",
+    "confidence": "LOW",
+    "independent_threads": 1,
+    "user_origin_threads": 1,
+    "evidence_items": 1,
+    "user_origin_items": 1,
+    "developer_promo_items": 0,
+    "evidence_score": 4.0
+  },
+  {
+    "pain_cluster": "MD_EQUATIONS",
+    "confidence": "LOW",
+    "independent_threads": 1,
+    "user_origin_threads": 0,
+    "evidence_items": 1,
+    "user_origin_items": 0,
+    "developer_promo_items": 1,
+    "evidence_score": 0.0
+  },
+  {
+    "pain_cluster": "MD_PRIVACY",
+    "confidence": "LOW",
+    "independent_threads": 1,
+    "user_origin_threads": 0,
+    "evidence_items": 1,
+    "user_origin_items": 0,
+    "developer_promo_items": 0,
+    "evidence_score": 1.0
+  },
+  {
+    "pain_cluster": "MD_STYLE_AND_WORKFLOW",
+    "confidence": "MEDIUM",
+    "independent_threads": 2,
+    "user_origin_threads": 2,
+    "evidence_items": 2,
+    "user_origin_items": 2,
+    "developer_promo_items": 0,
+    "evidence_score": 8.0
+  },
+  {
+    "pain_cluster": "QR_BULK",
+    "confidence": "LOW",
+    "independent_threads": 1,
+    "user_origin_threads": 1,
+    "evidence_items": 1,
+    "user_origin_items": 1,
+    "developer_promo_items": 0,
+    "evidence_score": 4.0
+  },
+  {
+    "pain_cluster": "QR_DYNAMIC_WORKFLOW",
+    "confidence": "LOW",
+    "independent_threads": 1,
+    "user_origin_threads": 1,
+    "evidence_items": 1,
+    "user_origin_items": 1,
+    "developer_promo_items": 0,
+    "evidence_score": 4.0
+  },
+  {
+    "pain_cluster": "QR_EXPIRY_PAYWALL",
+    "confidence": "MEDIUM",
+    "independent_threads": 2,
+    "user_origin_threads": 2,
+    "evidence_items": 2,
+    "user_origin_items": 2,
+    "developer_promo_items": 0,
+    "evidence_score": 8.0
+  },
+  {
+    "pain_cluster": "QR_PRIVACY",
+    "confidence": "LOW",
+    "independent_threads": 1,
+    "user_origin_threads": 1,
+    "evidence_items": 1,
+    "user_origin_items": 1,
+    "developer_promo_items": 0,
+    "evidence_score": 3.0
+  },
+  {
+    "pain_cluster": "STL_PHOTO_QUALITY",
+    "confidence": "LOW",
+    "independent_threads": 2,
+    "user_origin_threads": 1,
+    "evidence_items": 2,
+    "user_origin_items": 1,
+    "developer_promo_items": 1,
+    "evidence_score": 4.0
+  },
+  {
+    "pain_cluster": "STL_WORKAROUND_CHAIN",
+    "confidence": "MEDIUM",
+    "independent_threads": 2,
+    "user_origin_threads": 2,
+    "evidence_items": 2,
+    "user_origin_items": 2,
+    "developer_promo_items": 0,
+    "evidence_score": 8.0
+  }
+]

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Pain Mining"
+  short_description: "Mine user pain, workarounds, and tool-site gaps from public discussions."
+  default_prompt: "Use $pain-mining to mine evidence-backed user pain and workaround chains. In tool-site mode, separate FEATURE, PAGE_CANDIDATE, HOMEPAGE_COPY, and FAQ_GUIDE, and keep SEO demand validation downstream."
+policy:
+  allow_implicit_invocation: true
