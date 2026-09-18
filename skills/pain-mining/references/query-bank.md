@@ -1,4 +1,4 @@
-# Query Bank — v0.2
+# Query Bank — v0.3
 
 Use this as a pattern library. Replace bracketed terms with natural language. Keep queries short.
 
@@ -212,3 +212,40 @@ Record both pre-reframe and post-reframe yield. One successful reframe is a sign
 - Prefer natural task verbs over SEO nouns.
 - Use recent-date filters for fast-moving software, but expand when evidence is sparse.
 - Do not endlessly reframe: one adaptive reframe batch, then widen sources or declare sparse evidence.
+
+
+## P. Ecosystem reframe
+
+Some tool categories are discussed through **specific ecosystems**, not the generic SEO noun.
+
+Examples:
+
+- `chart maker` may appear as `Flourish alternative`, `Plotly cumbersome`, `Excel chart export`, or `ggplot`.
+- `JSON formatter` may appear as browser-extension trust, VS Code large-file handling, `jq`, or JSON diff.
+- platform downloaders may be discussed in the platform subreddit rather than under `downloader`.
+
+Patterns:
+
+- `site:reddit.com "[competitor] alternative" [job]`
+- `site:reddit.com [library/product] cumbersome [task]`
+- `site:reddit.com/r/[community] "[natural task phrase]"`
+- `site:reddit.com [host platform] [desired outcome]`
+
+Use ecosystem reframing only when the generic task is semantically clear but the category noun is not how users discuss it.
+
+## Query yield vs pain density
+
+Do not confuse these:
+
+- **Query yield**: how many inspected results are relevant to the task.
+- **Pain density**: how many relevant fetched threads contain user-origin pain/request evidence.
+
+A text case converter can have relevant results but very low pain density because the task is already simple and often solved by built-in shortcuts. That is valid negative evidence.
+
+If query yield is good but pain density is low, stop broadening unless a major intent branch is untested.
+
+## Source Widening Gate
+
+After one failed task-language reframe, use `references/source-widening.md`.
+
+Do not run repeated Reddit rewrites indefinitely.

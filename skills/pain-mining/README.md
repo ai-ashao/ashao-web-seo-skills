@@ -1,32 +1,35 @@
-# Pain Mining Skill v0.2
+# Pain Mining Skill v0.3
 
-A Codex/Skills-compatible workflow for mining evidence-backed user pains from Reddit and similar public discussions, with a dedicated **tool-site mode** for SEO utilities.
+A Codex/Skills-compatible workflow for mining evidence-backed user pains from public discussions, with a dedicated **tool-site mode** for SEO utilities.
 
 ## Typical prompts
 
 - `Use pain-mining to research markdown to word converter in tool-site mode.`
 - `Mine user pain for image compressor and classify findings as Feature vs SEO Page Candidate.`
 - `Research image to STL. Extract workaround chains and page candidates.`
-- `Research website image downloader. If initial queries are noisy, reframe them into natural user language.`
+- `Research chart maker. If Reddit wording remains weak after one reframe, use bounded source widening.`
+- `Research text case converter as a negative control; do not manufacture pains.`
 
-## What changed in v0.2
+## What changed in v0.3
 
-v0.2 is based on a five-seed tool-site benchmark:
+v0.3 adds a second tool-site benchmark covering:
 
-- Markdown to Word
-- Image Compressor
-- Image to STL
-- Website Image Downloader
-- QR Code Generator
+- Color Palette Generator
+- Chart Maker
+- Pinterest Board Downloader
+- Background Remover
+- JSON Formatter
+- Word Counter
+- Text Case Converter (true low-friction control)
 
 Key changes:
 
-1. **Query Reframe Loop** — weak SEO/product-term queries are rewritten into natural task language before declaring sparse evidence.
-2. **Tool-site action classification** — findings are mapped to `FEATURE`, `PAGE_CANDIDATE`, `HOMEPAGE_COPY`, or `FAQ_GUIDE`.
-3. **Workaround chains** — multi-tool/manual workflows are extracted explicitly.
-4. **SEO guardrail** — Reddit can generate page candidates but cannot validate keyword volume or SERP opportunity.
-5. **Tool-specific intent expansion** — fidelity, exact constraints, batch, destination limits, compatibility, extraction edge cases, and export hand-off.
-6. **Benchmark metrics** — query yield and reframe recovery are tracked.
+1. **Evidence Shape** — every run ends as `BROAD`, `NARROW`, or `SPARSE`.
+2. **Pain Density** — query relevance is separated from actual user-origin pain evidence.
+3. **Source Widening Gate** — after one failed task-language reframe, switch evidence lane instead of endlessly rewriting Reddit queries.
+4. **Ecosystem Reframe** — professional tools may be discussed via products/libraries (Flourish, Plotly, VS Code, jq) rather than generic category nouns.
+5. **Negative-control behavior** — relevant search results with little pain are allowed to remain sparse.
+6. Existing v0.2 guards remain: self-promo scores zero, workaround chains are explicit, and PAGE_CANDIDATE still requires downstream SEO validation.
 
 ## What it intentionally does not do
 

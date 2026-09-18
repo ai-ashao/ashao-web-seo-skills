@@ -5,7 +5,7 @@ description: Mine evidence-backed user pain points, workarounds, feature gaps, e
 
 # Pain Mining
 
-Version: 0.2
+Version: 0.3
 
 ## Purpose
 
@@ -38,6 +38,9 @@ The skill discovers **pain evidence**. It does not decide by itself whether a pr
 12. **Tool-site outputs need action classification.** In tool-site mode, separate Feature, SEO Page Candidate, Homepage Copy, and FAQ/Guide. A Page Candidate is never treated as keyword-demand proof.
 13. **Workaround chains are high-value signals.** Multi-step user workflows (e.g. PNG → SVG → CAD → STL) should be extracted explicitly because collapsing them can define a useful tool.
 14. **Simple tools still need negative controls.** Do not assume a simple utility has few pains; test that empirically and maintain at least one genuinely low-pain benchmark case.
+15. **Relevant search results are not pain evidence.** Track query yield separately from pain density; a relevant thread can still contain no meaningful pain.
+16. **Classify the evidence shape.** Every run must end as `BROAD`, `NARROW`, or `SPARSE`; this describes the observed corpus, not market size.
+17. **Widen sources only after searchability failure.** If one task-language reframe still fails, use the Source Widening Gate instead of endless query rewriting. If queries are relevant but pain density is low, do not widen just to manufacture pain.
 
 ## Inputs
 
@@ -164,7 +167,17 @@ Reframe in this order:
 3. Add a user context/destination: `for Word`, `for 3D printing`, `for upload form`.
 4. Restrict to a relevant community only after the task language is clear.
 
-Run one 4–8 query reframe batch. Record pre/post yield separately. If the reframe also fails, declare sparse evidence or widen sources; do not endlessly query-spin.
+Run one 4–8 query reframe batch. Record pre/post yield separately.
+
+#### Source Widening Gate
+
+If the reframe still has <40% GOOD/OK queries **and** fewer than 5 unique user-origin threads have surfaced, read `references/source-widening.md` and widen to one adjacent evidence lane (ecosystem/product-specific discussions, GitHub Issues, Stack Overflow/Stack Exchange, app/extension reviews, or specialist forums).
+
+Do not widen merely because pain density is low when query relevance is already good. That pattern can be genuine low-friction evidence.
+
+Record source lanes and yield separately. Do not blend source types into one fake frequency.
+
+Do not endlessly query-spin: one adaptive reframe, then bounded source widening or a SPARSE conclusion.
 
 ### Phase 5 — Fetch primary evidence
 
@@ -257,6 +270,23 @@ For each cluster calculate only corpus-derived counts:
 
 Then assign confidence using `references/scoring.md`.
 
+### Phase 8A — Measure pain density and evidence shape
+
+Calculate:
+
+- `pain_density = unique user-origin pain threads / unique relevant fetched threads`
+- `promotion_contamination = developer-promo items / all classified evidence items`
+
+These are corpus diagnostics, not market metrics.
+
+Then classify the run using `references/evidence-shape.md` as:
+
+- `BROAD`
+- `NARROW`
+- `SPARSE`
+
+A high query hit rate with low pain density should normally become NARROW or SPARSE, not trigger more searching solely to inflate the graph.
+
 ### Phase 9 — Negative-evidence check
 
 Choose the 2–5 most tempting but weak hypotheses and run targeted searches for them.
@@ -327,15 +357,16 @@ Required sections:
 
 1. Research scope
 2. Corpus summary
-3. Query performance, including any reframe batch
-4. Pain Graph
-5. Evidence table
-6. Workarounds and workaround chains
-7. Feature implications
-8. Tool-site actions (when `mode=tool_site`)
-9. Competitor discoveries
-10. Weak / unsupported hypotheses
-11. Next validation
+3. Query performance, including any reframe/source-widening batch
+4. Evidence shape and pain density
+5. Pain Graph
+6. Evidence table
+7. Workarounds and workaround chains
+8. Feature implications
+9. Tool-site actions (when `mode=tool_site`)
+10. Competitor discoveries
+11. Weak / unsupported hypotheses
+12. Next validation
 
 ## Evidence minimums
 
@@ -356,7 +387,9 @@ These are workflow thresholds, not population estimates.
 Stop broad searching when either:
 
 - target corpus size is reached, or
-- two consecutive query batches each add < 20% new relevant unique threads.
+- two consecutive query batches each add < 20% new relevant unique threads; or
+- query relevance is adequate but pain density remains low after representative primary-thread fetches; or
+- one reframe plus bounded source widening still fails to surface enough user-origin evidence.
 
 Continue only if a major pain branch is still untested.
 
