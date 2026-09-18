@@ -11,11 +11,17 @@ Normally recommend only when all are true:
 - opportunity score >= 75;
 - separation risk <= 40;
 - search opportunity subtotal >= 26 of 39;
-- product differentiation subtotal >= 22 of 32;
 - independent primary keyword raw score >= 3;
-- homepage workflow difference raw score >= 3;
 - no hard gate;
 - overall confidence is medium or high.
+
+Apply these additional gates by `decision_profile`:
+
+- `generic` / `product_led`: product differentiation subtotal >= 22 of 32 and homepage workflow difference raw score >= 3.
+- `seo_first_utility` / `downloader`: long-tail expansion raw score >= 3 and independent content system raw score >= 3. Workflow novelty is not a hard gate.
+- `content_site`: independent content system raw score >= 4 and user/use-case difference raw score >= 2.
+
+`BLOCK_PRODUCT` overrides every architecture. `SITE_ONLY` blocks a new domain; scores >= 60 may support a section and scores >= 40 may support a page.
 
 A lower-confidence candidate may receive a provisional independent-site direction only after an existing-domain validation step.
 

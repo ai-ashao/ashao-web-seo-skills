@@ -1,7 +1,6 @@
 interface:
   display_name: "SERP Siege"
-  short_description: "Turn chosen SEO directions into focused execution roadmaps."
-  default_prompt: "Use $serp-siege to package this chosen tool-site direction into a bounded first batch and execution roadmap."
-
+  short_description: "Turn chosen SEO directions and competitor exports into an evidence-led SEO MVP."
+  default_prompt: "Use $serp-siege after the direction/destination is chosen. Prefer supplied Top Pages and Organic Keywords exports, build demand evidence and Page Families, then produce a bounded SEO Page Map and First Batch."
 policy:
   allow_implicit_invocation: true

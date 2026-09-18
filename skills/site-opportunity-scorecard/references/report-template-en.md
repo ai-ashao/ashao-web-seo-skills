@@ -1,32 +1,26 @@
-# Independent Site Opportunity Assessment Template
-
-# [Candidate Direction] Independent-Site Assessment
+# [Candidate Direction] Architecture Opportunity Assessment
 
 ## 1. Executive conclusion
 
 - **Candidate:**
+- **Decision Profile:** `seo_first_utility` / `product_led` / `content_site` / `downloader` / `generic`
 - **Target market/language:**
 - **Opportunity score:** /100
 - **Separation risk:** /100
 - **Evidence confidence:** High / Medium / Low
-- **Differentiation level:** None / Cosmetic / Moderate / Strong
 - **Recommended architecture:** INDEPENDENT_SITE / EXISTING_SITE_SECTION / EXISTING_SITE_PAGE / OBSERVE_OR_REJECT
-- **Priority:** P0 / P1 / P2 / P3
 
-In 3–5 sentences, explain why this architecture is better than the other three.
+Explain in 3–5 sentences why this architecture is preferred.
 
 ## 2. Decision basis
 
 ### Decisive opportunities
-
 -
 
 ### Decisive constraints
-
 -
 
 ### Hard gates
-
 - Status: not triggered / triggered
 - Scope: `SITE_ONLY` / `BLOCK_PRODUCT`
 
@@ -34,15 +28,15 @@ In 3–5 sentences, explain why this architecture is better than the other three
 
 | Dimension | Criterion | Raw score (0–5) | Weighted score | Evidence | Evidence type | Confidence |
 |---|---|---:|---:|---|---|---|
-| Search opportunity | Independent primary keyword | | /12 | | | |
+| Search opportunity | Independent primary cluster | | /12 | | | |
 | Search opportunity | SERP breakability | | /15 | | | |
-| Search opportunity | Long-tail expansion | | /12 | | | |
+| Search opportunity | Expansion system | | /12 | | | |
 | Product differentiation | User/use-case difference | | /12 | | | |
 | Product differentiation | Homepage workflow difference | | /10 | | | |
 | Product differentiation | Independent brand reason | | /10 | | | |
-| Independent growth | Link and distribution potential | | /10 | | | |
+| Independent growth | Link/distribution potential | | /10 | | | |
 | Independent growth | Independent content system | | /9 | | | |
-| Site economics | Development and maintenance economics | | /5 | | | |
+| Site economics | Development/maintenance economics | | /5 | | | |
 | Site economics | Monetization fit | | /5 | | | |
 
 ## 4. Separation risk
@@ -57,96 +51,82 @@ In 3–5 sentences, explain why this architecture is better than the other three
 | Link-authority fragmentation | | /10 | |
 | Development/maintenance fragmentation | | /10 | |
 
-## 5. Keyword cluster
+## 5. Demand / Keyword System Summary
 
-### Core functional terms
+- **Core demand cluster:**
+- **Important synonyms/input-output variants:**
+- **Independent expansion classes:**
+- **Mechanical false long-tails to exclude:**
+- **Primary datasets and dates:**
+- **Conflicts/missing evidence:**
 
-### Synonyms and input/output terms
+Describe whether the demand system supports the selected architecture. Do not create the final URL/Page Family map here.
 
-### Scenario and audience terms
+## 6. SERP entry evidence
 
-### Guides, problems, and specifications
-
-### Comparison, alternatives, and templates
-
-### False long-tail terms to exclude
-
-## 6. SERP entry point
-
-- **Google's dominant intent interpretation:**
-- **Homepage/detail-page distribution:**
-- **Dedicated-tool/suite distribution:**
-- **Weakest credible ranking result:**
-- **Specific reason the candidate can outperform it:**
-- **Required page type:**
-- **Likely authority or link threshold:**
+- **Dominant intent:**
+- **Main result types:**
+- **Specific entry evidence:**
+- **Authority/link dependency:**
 - **SERP confidence:**
 
-## 7. A/B/C positioning comparison
+## 7. Positioning and separation logic
 
-| Dimension | Site A | Site B | Candidate C |
-|---|---|---|---|
-| Core user | | | |
-| Primary job | | | |
-| Entry keyword | | | |
-| Homepage workflow | | | |
-| Default output | | | |
-| Core promise | | | |
-| Content system | | | |
-| Link/share reason | | | |
-| Monetization | | | |
-| Maintenance burden | | | |
+| Dimension | Host/competitors | Candidate |
+|---|---|---|
+| Core user | | |
+| Primary job | | |
+| Entry demand | | |
+| Workflow | | |
+| Core promise | | |
+| Content/page system | | |
+| Link/share reason | | |
+| Monetization | | |
+| Maintenance burden | | |
 
-## 8. Recommended homepage entry point
+## 8. Distribution and independent-brand reason
 
-- **Title direction:**
-- **H1 direction:**
-- **Above-the-fold tool:**
-- **Core promise:**
-- **Primary CTA:**
-- **Secondary functions:**
-- **Content that should not compete for the homepage theme:**
+Explain who would link/share, why, and whether a separate domain creates a genuinely clearer category position.
 
-## 9. Page matrix
-
-### Required MVP pages
-
-### Second-phase pages
-
-### Pages that should remain on the host site
-
-### Duplicate or doorway pages not to create
-
-## 10. Link and distribution paths
-
-Answer: who links, why they link, and what asset they link to.
-
-| Potential linker/channel | Link or sharing reason | Target asset | Feasibility |
-|---|---|---|---|
-| | | | |
-
-## 11. Monetization and maintenance
+## 9. Monetization and maintenance
 
 - Monetization route:
-- Traffic geography and value:
-- Engagement/return-use logic:
-- API, database, and server requirements:
+- Main traffic geographies:
+- Return-use logic:
+- API/server/database requirements:
 - Platform dependencies:
-- Support and maintenance burden:
-- Fit with the low-maintenance constraint:
+- Support/maintenance burden:
 
-## 12. Minimum validation plan
+## 10. Minimum validation plan
 
-- **Key assumption to test:**
-- **Validation vehicle:** existing-site page / section / lightweight prototype / other
-- **Metrics:**
-- **Success threshold:**
-- **Failure threshold:**
-- **Observation window or sample condition:**
+- **Assumption to test:**
+- **Validation vehicle:**
+- **Success signal:**
+- **Failure signal:**
 - **Re-evaluation trigger:**
 
-## 13. Final decision
+## 11. Handoff to SERP Siege
 
-End with one explicit sentence:
+```yaml
+opportunity_context:
+  source: site-opportunity-scorecard
+  decision_profile: ...
+  destination: ...
+  primary_job: ...
+  primary_cluster: ...
+  market: ...
+  evidence_datasets:
+    - ...
+  constraints:
+    - ...
+  exclusions:
+    - ...
+  unresolved_questions:
+    - ...
+```
 
-> Build [candidate direction] as [INDEPENDENT_SITE / EXISTING_SITE_SECTION / EXISTING_SITE_PAGE / OBSERVE_OR_REJECT]; do not use another architecture at this stage.
+Do not continue into an SEO Page Map or First Batch in this report.
+
+## 12. Final decision
+
+> Build [candidate direction] as [INDEPENDENT_SITE / EXISTING_SITE_SECTION / EXISTING_SITE_PAGE / OBSERVE_OR_REJECT]; hand downstream page planning to SERP Siege.

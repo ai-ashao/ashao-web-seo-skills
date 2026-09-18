@@ -1,244 +1,224 @@
 ---
 name: site-opportunity-scorecard
-description: Evaluate whether an SEO keyword cluster, product feature, competitor-derived idea, or existing site section should become an independent website, remain a section, remain a single landing page, or be rejected. Use for tool-site selection, site splitting, SEO product positioning, homepage entry-point analysis, competitor opportunity analysis, and low-maintenance website portfolio decisions. Do not use as a general technical SEO audit of an already-built site.
+description: Decide whether an SEO/product opportunity should live as an independent site, an existing-site section, an existing-site page, or be observed/rejected. Use before implementation when site architecture is genuinely undecided. Supports decision profiles such as seo_first_utility, product_led, content_site, and downloader. Do not design the SEO page matrix; hand the selected architecture and evidence to serp-siege.
 ---
 
-# Site Opportunity Scorecard
+# Site Opportunity Scorecard v2
 
-Assess the correct site architecture for a keyword cluster or product opportunity. The output must make a decision, expose the evidence, and separate market opportunity from site-separation risk.
+Answer one question only:
 
-## Use this skill when
+> **Where should this opportunity live?**
 
-Use it when the user asks questions such as:
+Valid outcomes:
 
-- Should this function become a separate website?
-- Should I build site C against sites A and B?
-- Is this keyword cluster large and distinct enough for a new domain?
-- Should this idea be a homepage, a subdirectory, a tool page, or be abandoned?
-- Which feature should be the homepage entry point?
-- Can several sites reuse the same underlying features without becoming duplicate shells?
-- Evaluate a tool-site, game-site, calculator, converter, downloader, viewer, generator, or niche content opportunity.
+- `INDEPENDENT_SITE`
+- `EXISTING_SITE_SECTION`
+- `EXISTING_SITE_PAGE`
+- `OBSERVE_OR_REJECT`
 
-## Do not use this skill when
+This skill is an architecture/admission decision layer. It does **not** build the site, design the final homepage, produce an SEO MVP page matrix, or decide every URL. Once architecture is selected, hand the evidence to `$serp-siege`.
 
-- The user only wants a technical SEO audit, accessibility audit, visual review, code review, or conversion-rate audit of an existing site.
-- The task is only keyword research without an architecture decision.
-- The user asks for traffic, revenue, or ranking estimates without enough evidence and does not want an opportunity assessment.
+## Decision profiles
 
-When both an existing-site audit and an opportunity decision are needed, complete the opportunity decision separately. Do not merge the two scores.
+Choose the profile that best matches the opportunity. Do not create a new Skill for every niche.
 
-## Required decision
+- `seo_first_utility` — converters, viewers, generators, calculators, download-like utilities, file tools, small ad-first tools.
+- `product_led` — SaaS or products where workflow differentiation, activation, retention, or paid conversion is central.
+- `content_site` — content/wiki/directory opportunities where the content system is the product surface.
+- `downloader` — use `seo_first_utility` decision behavior plus the downloader-specific evidence checks in `references/profiles/downloader.md`.
+- `generic` — use only when no profile above fits.
 
-Always choose exactly one primary recommendation:
+A profile changes **how evidence is interpreted**, not the evidence labels or the scoring scale.
 
-1. `INDEPENDENT_SITE`
-2. `EXISTING_SITE_SECTION`
-3. `EXISTING_SITE_PAGE`
-4. `OBSERVE_OR_REJECT`
+## Responsibility boundary
 
-Do not end with only “worth considering.”
+This skill may:
+
+- decide site / section / page / reject;
+- evaluate independent demand, SERP entry, differentiation, distribution, economics, maintenance, and separation risk;
+- use user-supplied Ahrefs/Semrush/GSC/Bing data as first-class evidence;
+- state hard gates and minimum validation requirements;
+- produce a compact handoff to SERP Siege.
+
+This skill must not:
+
+- generate a final keyword-to-URL map;
+- produce an 8–15 page First Batch;
+- invent Page Families or scaled instances as an execution plan;
+- prescribe detailed Title/H1/CTA copy for the final site;
+- rerun the downstream SERP Siege workflow inside this report.
 
 ## Inputs
 
-Use the information available. Typical inputs are:
+Use whatever evidence is available. Typical inputs:
 
-- target feature, product idea, or keyword cluster;
-- target country, language, and device context;
-- existing site or portfolio that could host the feature;
-- competitor sites A/B and their homepage positioning;
-- business model, such as AdSense, affiliate, subscription, or lead generation;
-- maintenance, API, database, compliance, and platform constraints;
-- third-party keyword data supplied by the user;
-- publicly observable SERPs and competitor pages.
+- candidate idea or keyword cluster;
+- `decision_profile`;
+- target market/language;
+- possible host site;
+- business model and maintenance constraints;
+- direct competitors;
+- user-supplied Ahrefs/Semrush Top Pages / Organic Keywords exports;
+- GSC/Bing/analytics data when the opportunity extends an existing site;
+- live SERP and competitor observations.
 
-If important data is missing, do not fabricate it. Continue with a provisional assessment, label missing fields, lower confidence, and provide a minimum validation plan.
+Never fabricate volume, traffic, KD, backlinks, revenue, or conversion.
+
+## Evidence labels
+
+Use:
+
+- `FIRST_PARTY`
+- `USER_SUPPLIED_THIRD_PARTY`
+- `LIVE_PUBLIC_OBSERVATION`
+- `HISTORICAL_PUBLIC_SOURCE`
+- `MODEL_INFERENCE`
+- `MISSING`
+
+Missing evidence is not negative evidence. Lower confidence and name the validation required.
 
 ## Workflow
 
 ### 1. Frame the candidate
 
-Define:
+Define the primary job, candidate cluster, market, possible host, business model, maintenance constraints, and decision profile.
 
-- candidate product or feature;
-- primary user task;
-- proposed main keyword cluster;
-- target market and language;
-- possible host site, if any;
-- business and maintenance constraints.
+### 2. Establish independent demand
 
-Distinguish the product concept from the keyword. A product name is not automatically a validated keyword.
+Determine whether the opportunity has a coherent discoverable demand system independent of the host.
 
-### 2. Build the keyword cluster
+Prefer, in order:
 
-Group only terms that resolve to substantially the same user task. Use these buckets when relevant:
+1. first-party query/completion data;
+2. user-supplied Top Pages / Organic Keywords / traffic exports;
+3. current SERP and competitor observations;
+4. historical public evidence;
+5. model inference.
 
-- primary functional terms;
-- close synonyms and input/output variants;
-- scenario and audience terms;
-- problem/solution terms;
-- comparison and alternative terms;
-- template, example, guide, and specification terms;
-- country and language variants.
+For SEO-first utilities, repeated competitor Top Pages and keyword clusters are valid demand evidence even when product workflows look similar.
 
-Do not inflate the cluster with unrelated high-volume terms or mechanically swapped pages.
+### 3. Inspect SERP entry and competitive proof
 
-### 3. Inspect the SERP and competitors
+Evaluate:
 
-When browsing is available, inspect the live SERP and actual competitor pages. Determine:
+- dominant page type and intent;
+- whether dedicated tools, suites, homepages, forums, docs, or content pages rank;
+- evidence that newer/smaller sites can enter, when available;
+- whether weak or mismatched results exist;
+- whether the candidate needs authority/link proof beyond product fit.
 
-- whether ranking results are homepages, dedicated tools, broad suites, forums, documentation, videos, or marketplaces;
-- how many results directly satisfy the tool intent;
-- whether weak, outdated, thin, broken, slow, or poorly localized pages rank;
-- whether large brands dominate because of authority rather than product fit;
-- whether the candidate can win through a better workflow, output, audience focus, language, privacy model, speed, or content system;
-- whether the SERP is unstable or driven by a temporary trend.
+Do not use KD alone as SERP breakability.
 
-Follow `references/serp-analysis-rules.md`.
+### 4. Compare candidate vs host
 
-### 4. Compare product positioning
+Assess:
 
-Compare sites A, B, and candidate C across:
+- keyword overlap;
+- search-intent overlap;
+- product/workflow overlap;
+- content/template overlap;
+- brand-positioning ambiguity;
+- link-authority fragmentation;
+- maintenance fragmentation.
 
-- target user;
-- primary job-to-be-done;
-- homepage workflow;
-- default input and output;
-- core promise;
-- differentiating capability;
-- content system;
-- share/link reason;
-- monetization and maintenance model.
+Code reuse is not a reason by itself to merge or split sites.
 
-Classify differentiation as `NONE`, `COSMETIC`, `MODERATE`, or `STRONG` using `references/differentiation-rules.md`.
+### 5. Score opportunity and separation risk
 
-### 5. Score opportunity
+Use the existing 0–5 scoring rubric and deterministic calculator.
 
-Score every opportunity criterion from 0 to 5. Calculate the weighted score using `references/scoring-rubric.md`.
+Profiles alter the independent-site gate:
 
-Opportunity dimensions total 100 points:
+- `product_led` / `generic`: workflow differentiation remains decision-critical.
+- `seo_first_utility` / `downloader`: **workflow difference is not a hard gate**. Independent demand, coherent expansion, low host overlap, and viable economics may justify a separate site even when the core interaction resembles other tools.
+- `content_site`: content-system independence and search-intent separation matter more than homepage workflow novelty.
 
-- Search opportunity: 39
-- Product differentiation: 32
-- Independent growth: 19
-- Site economics: 10
+Do not raise or lower a raw criterion score merely to force the preferred architecture.
 
-Use `scripts/calculate_score.py` when structured scores are available.
+### 6. Apply hard gates
 
-### 6. Score separation risk
+Use scoped hard gates:
 
-Score every risk criterion from 0 to 5, where 5 means highest risk. Calculate a separate 0–100 risk score.
+- `SITE_ONLY` — blocks a new domain but may permit a section/page.
+- `BLOCK_PRODUCT` — blocks every architecture until resolved.
 
-Never hide a high separation risk inside the opportunity score.
+Examples of `BLOCK_PRODUCT` include unacceptable legal/policy dependency or a maintenance requirement that directly violates the user's operating constraints.
 
-### 7. Check hard gates
+### 7. Choose exactly one architecture
 
-Do not recommend `INDEPENDENT_SITE` when any hard gate applies:
+Use the deterministic result as a guardrail, then explain the decisive evidence and uncertainty.
 
-- no clear independent primary keyword or discoverable demand;
-- primary demand is mainly a third-party brand navigation query;
-- candidate and host site resolve to the same user intent with no meaningful workflow difference;
-- the only differences are logo, color, domain, wording, or feature-card order;
-- no credible independent page or content expansion beyond near-duplicate variants;
-- unacceptable copyright, legal, platform, or policy dependency;
-- maintenance or service burden violates the stated operating constraints;
-- evidence quality is too low to justify a new domain without validation.
+When confidence is low, do not pretend the score is final. Prefer a reversible validation surface.
 
-Classify every hard gate before scoring:
+### 8. Produce a SERP Siege handoff
 
-- `SITE_ONLY`: blocks a new domain, but a section or page on an existing site may remain viable. Use for overlap, insufficient independent demand, or insufficient evidence for a new domain.
-- `BLOCK_PRODUCT`: blocks every architecture until resolved. Use for unacceptable copyright, legal, platform, policy, or maintenance constraints.
+End with a compact handoff containing only:
 
-In structured input, represent a hard gate as `{ "reason": "...", "scope": "SITE_ONLY" | "BLOCK_PRODUCT" }`. Legacy string entries are treated as `SITE_ONLY`; do not use them for legal, policy, or operational blockers.
+```yaml
+opportunity_context:
+  source: site-opportunity-scorecard
+  decision_profile: seo_first_utility
+  destination: INDEPENDENT_SITE
+  primary_job: ...
+  primary_cluster: ...
+  market: ...
+  evidence_datasets:
+    - ...
+  constraints:
+    - ...
+  exclusions:
+    - ...
+  unresolved_questions:
+    - ...
+```
 
-### 8. Choose architecture
+Do not include a final page matrix. SERP Siege owns Page Families, SEO Page Map, and First Batch.
 
-Apply `references/architecture-decision.md`. Use score thresholds as guardrails, not as a substitute for judgment.
+## Profile-specific rules
 
-The recommendation must explain:
+### SEO-first utility
 
-- why this architecture is superior to the alternatives;
-- which evidence is decisive;
-- what would change the decision;
-- whether the candidate should be tested on an existing domain first.
+A separate site can be justified without a novel workflow when there is strong evidence for:
 
-### 9. Produce the report
+- a coherent independent query cluster;
+- enough non-duplicate expansion to sustain a site;
+- low-to-moderate overlap with the proposed host;
+- clear topical/category positioning;
+- viable low-maintenance economics;
+- a plausible distribution/link or recurring-use reason.
 
-Use `references/report-template.md`. Match the user’s language. For Chinese users, write the report in Simplified Chinese unless requested otherwise.
+Do not require product novelty for its own sake.
 
-Every scored criterion must include:
+### Downloader
 
-- raw score;
-- weighted score;
-- evidence;
-- evidence type;
-- confidence.
+Read `references/profiles/downloader.md`. Keep downloader-specific keyword permutations, traffic attribution, fresh-domain proof, extractor/platform durability, and policy checks here as a profile—not as a separate Skill.
 
-Clearly distinguish:
+## Minimum validation
 
-- verified first-party data;
-- supplied third-party metrics;
-- live public-page observations;
-- model inference;
-- missing data.
+When decision confidence is medium/low, define the cheapest reversible test. Examples:
 
-Follow `references/evidence-confidence.md`.
+- an existing-site landing page;
+- a small section;
+- a lightweight prototype;
+- a bounded SERP/Top Pages refresh;
+- GSC/Bing query evidence;
+- an extractor spike for platform-dependent utilities.
 
-## Scoring discipline
+Specify the success signal and re-evaluation trigger. Avoid arbitrary time windows when sample conditions are more meaningful.
 
-- A 3 means adequate evidence, not “unknown.”
-- Unknown data is not a neutral 3. Mark it missing and lower confidence.
-- Do not award high SERP scores solely because KD is low.
-- Do not award high long-tail scores to thin permutations.
-- Do not award high brand scores for a possible domain name alone.
-- Do not award high external-link scores without naming plausible linkers, reasons, and target assets.
-- Do not recommend a new site only because code can be reused.
-- Do not treat CPC 0 as proof of no value; assess intent, geography, monetization, and data quality.
+## Output
 
-## Minimum validation plan
+Use `references/report-template.md` or the English template. The report must include:
 
-When confidence is medium or low, include a test that can be completed before buying or fully developing a new domain. Prefer one or more of:
-
-- publish a dedicated page or section on the existing domain;
-- monitor impressions, ranking breadth, CTR, and tool completions;
-- run a lightweight exact-match landing page without duplicating the full site;
-- collect Bing/GSC query data;
-- inspect 30/90-day trend stability;
-- test shareability or link outreach with a real asset;
-- build a browser-only prototype to validate workflow differentiation;
-- interview or observe users only when the project economics justify it.
-
-Define success thresholds and a re-evaluation trigger.
-
-## Supporting files
-
-Load these when needed:
-
-- `references/scoring-rubric.md`: criteria, weights, and score anchors.
-- `references/evidence-confidence.md`: evidence labels and confidence method.
-- `references/serp-analysis-rules.md`: SERP inspection and weakness classification.
-- `references/differentiation-rules.md`: genuine versus cosmetic differentiation.
-- `references/architecture-decision.md`: page/section/site decision logic.
-- `references/report-template.md`: required Simplified Chinese final report format.
-- `references/report-template-en.md`: required English final report format.
-- `references/examples.md`: worked examples and anti-patterns.
-- `assets/assessment-input-template.json`: optional structured input.
-- `scripts/calculate_score.py`: deterministic scoring and preliminary recommendation.
-- `scripts/validate_report.py`: report completeness validation.
-
-## Completion standard
-
-A complete assessment must contain:
-
-- opportunity score out of 100;
-- separation risk out of 100;
+- one architecture recommendation;
+- opportunity score and separation risk;
 - evidence confidence;
-- exactly one architecture recommendation;
-- score breakdown with evidence;
-- keyword-cluster assessment;
-- SERP entry point;
-- A/B/C positioning comparison when competitors are available;
-- proposed homepage entry point when relevant;
-- MVP page matrix;
-- independent linking/distribution logic;
-- key risks and hard gates;
-- minimum validation plan and re-evaluation conditions.
+- decisive evidence and hard gates;
+- demand/keyword-system summary;
+- SERP entry evidence;
+- positioning and separation logic;
+- economics/maintenance;
+- minimum validation plan;
+- SERP Siege handoff.
+
+Do **not** include a detailed page matrix or downstream implementation roadmap.

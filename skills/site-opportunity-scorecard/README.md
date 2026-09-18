@@ -1,60 +1,23 @@
-# site-opportunity-scorecard
+# site-opportunity-scorecard v2
 
-A reusable Codex/ChatGPT Agent Skill for deciding whether an SEO product opportunity should become:
+Decides one thing: **where an opportunity should live**.
 
-- an independent website;
-- a section of an existing website;
-- a single landing/tool page;
-- or be observed/rejected.
+Outputs exactly one architecture: independent site, existing-site section, existing-site page, or observe/reject.
 
-## Install for Codex
+## Profiles
 
-Copy the folder to the user-level skill directory:
+- `seo_first_utility`
+- `product_led`
+- `content_site`
+- `downloader`
+- `generic`
 
-```bash
-mkdir -p ~/.codex/skills
-cp -R site-opportunity-scorecard ~/.codex/skills/
-```
+Niche-specific rules belong in profiles, not new Skills. The downloader profile lives at `references/profiles/downloader.md`.
 
-Codex detects changes automatically. Restart Codex if the skill does not appear.
-
-For a repository-local installation:
+After the architecture decision, hand the evidence to `$serp-siege` for Page Families, SEO Page Map, and First Batch.
 
 ```bash
-mkdir -p .codex/skills
-cp -R site-opportunity-scorecard .codex/skills/
-```
-
-## Invoke
-
-In Codex CLI or the IDE extension:
-
-```text
-$site-opportunity-scorecard
-```
-
-Example prompt:
-
-```text
-Use site-opportunity-scorecard to evaluate whether "markdown to image" should be
-an independent site or a section of mdformats.com. Target market: global English.
-Business model: AdSense. Constraints: browser-side processing, low maintenance,
-no login. Compare the current leading competitors and produce the full scorecard.
-```
-
-## Optional deterministic scoring
-
-```bash
-python3 scripts/calculate_score.py assets/assessment-input-template.json
-```
-
-Validate a generated Markdown report:
-
-```bash
+python3 scripts/calculate_score.py assets/assessment-input-template.json --pretty
 python3 scripts/validate_report.py --lang auto report.md
+python3 -B -m unittest discover -s tests -v
 ```
-
-`--lang auto` supports the included Chinese and English report templates. For
-structured scores, model hard gates as `{ "reason": "...", "scope": "SITE_ONLY" }`
-or `{ "reason": "...", "scope": "BLOCK_PRODUCT" }`; the latter prevents every
-architecture recommendation until the blocker is resolved.

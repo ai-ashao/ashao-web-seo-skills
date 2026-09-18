@@ -6,7 +6,7 @@ Different codebases are not required. Different user value is required.
 
 ### NONE
 
-The candidate completes the same job for the same user with the same workflow and output. The new site has no independent reason to exist.
+The candidate completes the same job for the same user with the same workflow and output. For `generic` / `product_led`, this provides no independent product reason to split. For `seo_first_utility` / `downloader`, similar workflows can still support a separate site when independent demand, expansion, content, and separation-risk gates are met. Duplicating the host demand and pages remains unjustified.
 
 Examples:
 

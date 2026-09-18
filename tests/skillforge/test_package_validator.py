@@ -468,17 +468,12 @@ class CurrentRepositorySkillTests(unittest.TestCase):
         repository_root = Path(__file__).resolve().parents[2]
         skills_root = repository_root / "skills"
         expected = {
-            "adapt-reference-site",
-            "ai-citation-research",
-            "competitive-ui-reverse-engineering",
-            "downloader-opportunity-radar",
             "helpful-value-audit",
             "reference-website-builder",
             "serp-siege",
             "site-opportunity-scorecard",
             "technical-seo-audit",
             "web-asset-pipeline",
-            "website-audit-scorecard",
         }
         actual = {path.name for path in skills_root.iterdir() if (path / "SKILL.md").is_file()}
         self.assertEqual(actual, expected)

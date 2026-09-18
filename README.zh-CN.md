@@ -1,132 +1,68 @@
-# Codex Skillforge
+# Codex Skillforge — 精简版
 
-[English](README.md) | 简体中文
+这个仓库只保留**真正需要固定流程、证据契约或确定性脚本**的 Skill。目标不是让 Skill 越多越好，而是让 AI 在关键决策上少犯重复错误，同时保留正常推理空间。
 
-[![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/ai-ashao/codex-skillforge?style=flat-square)](https://github.com/ai-ashao/codex-skillforge/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/ai-ashao/codex-skillforge?style=flat-square)](https://github.com/ai-ashao/codex-skillforge/forks)
-[![Last commit](https://img.shields.io/github/last-commit/ai-ashao/codex-skillforge?style=flat-square)](https://github.com/ai-ashao/codex-skillforge/commits/main)
+## 活跃 Skill（6 个）
 
-这是一个持续维护的自定义 Codex skills 集合，用于评估和改进小型 Web 产品。每个 skill 的 `SKILL.md` 说明适用场景和工作流，配套的参考资料、脚本、样例和明确声明的依赖让结论可复查、可复现。
-
-## 已收录 skills
-
-| Skill | 适用场景 | 确定性支持 |
+| Skill | 只回答什么 | 什么时候用 |
 |---|---|---|
-| [`adapt-reference-site`](skills/adapt-reference-site/) | 在既有产品中重建成熟参考站的信息架构、布局节奏、交互、响应式与视觉语言，同时避免复制受保护身份元素或虚构缺失功能。 | 明确的视觉策略模式、结构对齐与产品真实性门禁、clean-room 素材边界、SEO 分阶段接入和响应式浏览器 QA。 |
-| [`ai-citation-research`](skills/ai-citation-research/) | 研究网站在 AI 与网页搜索来源集中的表现，并把来源差距转化为小而明确的 SEO/GEO 行动计划。 | 稳定的自然语言问题集、来源出现率分析、竞品重复来源证据、机会分类与方法边界。 |
-| [`serp-siege`](skills/serp-siege/) | 将用户已经选定的网站、竞品或关键词转为覆盖矩阵、有限的 First Batch 和 MVP/P1/P2 执行 Roadmap。 | 执行报告结构校验、页面与词簇绑定规则、三个工作流 fixture；机会分析保持独立。 |
-| [`downloader-opportunity-radar`](skills/downloader-opportunity-radar/) | 寻找并验证年轻域名能够排名、且完整下载意图词簇具有可归因需求的 downloader/save/export SEO 机会。 | 确定性关键词排列、流量一致性检查、带域龄/流量/政策门禁的 100 分评分器、校准 fixture 与报告模板。 |
-| [`site-opportunity-scorecard`](skills/site-opportunity-scorecard/) | 判断一个 SEO 关键词簇或产品功能应成为独立网站、现有站专区、单一页面，还是暂缓/放弃。 | 加权机会分和拆站风险分、双语报告模板、报告结构校验。 |
-| [`website-audit-scorecard`](skills/website-audit-scorecard/) | 对已上线的网站或 Web 产品评估产品质量、UX、信任、SEO、技术可靠性和变现准备度。 | 证据加权的覆盖率与置信度、关键 gate、样例 fixture 与回归测试。 |
-| [`helpful-value-audit`](skills/helpful-value-audit/) | 审计工具页、竞品页或 SERP 的用户价值、功能完整性、可靠性、差异化、排名护城河与可攻击性。 | 100 分证据化评分框架、TESTED/OBSERVED/CLAIMED/UNKNOWN 证据等级、硬性门禁、SERP 基准能力分析与校准说明。 |
-| [`web-asset-pipeline`](skills/web-asset-pipeline/) | 将 AI、素材库、设计导出或截图中的视觉素材转为可上线的网站资源。 | 非破坏性素材审计、素材权利记录模板、格式与框架接入指南、回归测试。 |
-| [`competitive-ui-reverse-engineering`](skills/competitive-ui-reverse-engineering/) | 当你还在研究一个或多个竞品页面或截图，需要先提炼页面结构、转化与交互模式，并形成原创的 `KEEP / CHANGE / ADD / OMIT` 方案或实现计划时使用；默认只分析，不直接改代码。 | 证据分层的 UI 拆解、原创性边界、复用分析模板与素材流水线交接。 |
-| [`technical-seo-audit`](skills/technical-seo-audit/) | 按路由级索引策略审计公开工具站、SaaS、混合型或多语言站点，不把通用 SEO 阈值误判为缺陷。 | 统一 Markdown/JSON 证据、有边界的 SSRF 防护与站点爬取、profile/路由分类、抓取深度与孤页分析、canonical/内链/sitemap 一致性、重复模板信号、JSON-LD、hreflang 与 60+ 项回归测试。 |
-| [`reference-website-builder`](skills/reference-website-builder/) | 当你已经给出明确页面 URL，并希望在现有项目中实际高保真重建该页、完成响应式与交互 QA，再替换品牌、文案和临时素材以安全适配时使用。 | 页面级证据模板、必需的设计语言契约、临时素材隔离、集中式素材映射、校验工具与生产发布门禁。 |
+| `site-opportunity-scorecard` | **WHERE**：独立站、专区、单页还是不做？ | 架构尚未决定 |
+| `serp-siege` | **WHAT**：哪些 Page Families / SEO MVP 页面先做？ | 方向已经决定 |
+| `reference-website-builder` | **HOW**：参考页怎么分析、做原型、迁入真实项目？ | UI/交互/参考站任务 |
+| `technical-seo-audit` | **CRAWL**：搜索引擎能否正确发现、抓取、索引？ | 上线/迁移/技术 SEO 审计 |
+| `helpful-value-audit` | **VALUE**：页面是否真的解决用户任务？ | 工具页质量/竞品页差距 |
+| `web-asset-pipeline` | **ASSETS**：视觉素材如何安全、轻量、可追踪地上线？ | 需要处理生产素材时 |
 
-这些是可复用的工作流与决策框架，并非 Google、Lighthouse、WCAG 或 AdSense 的官方评分体系。评分必须附带当前证据和覆盖范围说明。
+## 已合并/移除的 Skill
 
-## 安装 skill
+- `downloader-opportunity-radar` → 变成 `site-opportunity-scorecard` 的 `downloader` profile。
+- `competitive-ui-reverse-engineering` → 合并进 `reference-website-builder` 的 `analyze` mode。
+- `adapt-reference-site` → 合并进 `reference-website-builder` 的 `adapt` mode。
+- `website-audit-scorecard` → 移除；综合判断由 AI 基于 specialist audits 完成，不再制造额外总分。
+- `ai-citation-research` → 移出核心 Skill 集；需要时作为普通研究任务执行，避免过早流程化。
 
-克隆本仓库，再将需要的单个 skill 复制到 Codex 的用户级 skill 目录：
+## 推荐工作流
+
+```text
+Idea / competitor
+       ↓
+site-opportunity-scorecard
+WHERE should it live?
+       ↓
+serp-siege
+WHAT should we build?
+       ↓
+reference-website-builder
+HOW should important pages work?
+       ↓
+technical-seo-audit
+Can search engines crawl/index it?
+       ↓
+helpful-value-audit
+Does the page genuinely satisfy the task?
+       ↓
+Launch / iterate from GSC and product data
+```
+
+`web-asset-pipeline` 在任何需要生产素材的阶段按需调用。
+
+## 新建 Skill 的门槛
+
+新 Skill 至少应满足下面三条中的两条：
+
+1. 不用 Skill 时，AI 会反复犯同一种高影响错误；
+2. 存在值得固定的 deterministic script / validator / evidence contract；
+3. 它是一个真正独立的决策阶段，而不是现有 Skill 的行业 profile/reference。
+
+如果只满足一条，优先写成现有 Skill 的 reference/profile，或者直接让 AI 正常推理。
+
+## 验证
 
 ```bash
-git clone https://github.com/ai-ashao/codex-skillforge.git
-mkdir -p ~/.codex/skills
-cp -R codex-skillforge/skills/site-opportunity-scorecard ~/.codex/skills/
-```
-
-将 `site-opportunity-scorecard` 替换为所需 skill，例如 `adapt-reference-site`、`ai-citation-research`、`downloader-opportunity-radar`、`website-audit-scorecard`、`helpful-value-audit`、`technical-seo-audit`、`web-asset-pipeline`、`competitive-ui-reverse-engineering` 或 `reference-website-builder`。安装后开启新的 Codex 对话；若未立即显示，再重启 Codex。
-
-`serp-siege` 可以独立安装：
-
-```bash
-cp -R codex-skillforge/skills/serp-siege ~/.codex/skills/
-```
-
-## 使用
-
-通过名称调用 skill，并给出评估目标与约束：
-
-```text
-使用 $serp-siege 把已经选定的 image compressor 方向包成有限的 First Batch 和执行 Roadmap。
-```
-
-```text
-使用 $downloader-opportunity-radar 寻找具有年轻域名排名证据和可归因意图词簇需求的下载工具机会。
-```
-
-```text
-Use $site-opportunity-scorecard to decide whether a Markdown-to-image workflow
-should be an independent site or a section of an existing converter site.
-```
-
-```text
-Use $website-audit-scorecard to audit https://example.com as a release gate.
-```
-
-```text
-使用 $helpful-value-audit 审计这个工具页对查询 "compress image to 100kb" 的帮助价值，并区分 Helpful Strength 与 Ranking Moat。
-```
-
-```text
-Use $web-asset-pipeline to audit, optimize, and integrate the visual assets for this website.
-```
-
-```text
-Use $competitive-ui-reverse-engineering to analyze these competitor references and create a differentiated implementation plan.
-```
-
-```text
-Use $technical-seo-audit to run a technical SEO audit for this URL and state the evidence limits.
-```
-
-```text
-使用 $reference-website-builder 在当前项目中重建这个明确指定的页面，并保留现有业务基础设施。
-```
-
-在依赖任何评估结论前，请先阅读对应 skill 的 `SKILL.md`，了解所需证据、报告格式和边界。
-
-## 仓库结构
-
-```text
-skills/
-  <skill-name>/
-    SKILL.md        # 调用规则与工作流
-    references/     # 评分规则、证据规则与报告模板
-    scripts/        # 确定性辅助脚本
-    assets/         # 样例输入与预期结果
-    tests/          # 含可执行逻辑时的回归测试
-```
-
-## 发布前验证
-
-运行与修改内容最相关的校验：
-
-```bash
-python3 -B -m unittest discover -s skills/website-audit-scorecard/tests -v
+python3 -B -m unittest discover -s skills/site-opportunity-scorecard/tests -v
 python3 -B -m unittest discover -s skills/serp-siege/tests -v
-python3 -B skills/downloader-opportunity-radar/scripts/validate.py
-python3 -B skills/site-opportunity-scorecard/scripts/calculate_score.py \
-  skills/site-opportunity-scorecard/assets/assessment-input-template.json
-python3 -B -m unittest discover -s skills/web-asset-pipeline/tests -v
+python3 -B skills/reference-website-builder/scripts/validate_skill.py skills/reference-website-builder
+python3 -B -m unittest discover -s skills/helpful-value-audit/tests -v
 python3 -B -m unittest discover -s skills/technical-seo-audit/tests -v
-python3 -B -m skillforge validate skills/helpful-value-audit
-python3 -B skills/reference-website-builder/scripts/validate_skill.py \
-  skills/reference-website-builder
+python3 -B -m unittest discover -s skills/web-asset-pipeline/tests -v
 ```
-
-对于机会评分报告，可校验其结构与语言配置：
-
-```bash
-python3 -B skills/site-opportunity-scorecard/scripts/validate_report.py \
-  --lang auto path/to/report.md
-```
-
-## 维护约定
-
-- 保持评分规则、计算器、模板和样例同步更新。
-- 明确区分实测证据、用户提供的第三方指标和模型推断。
-- 每次修复计算器问题时，都应补充回归测试。
-- 不要在此仓库提交凭据、生产数据、浏览器配置文件或用户导出数据。
