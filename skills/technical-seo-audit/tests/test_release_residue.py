@@ -72,6 +72,13 @@ class ReleaseResidueTests(unittest.TestCase):
         self.assertEqual(result["findings"], [])
         self.assertEqual(result["status"], "info")
 
+    def test_todo_marker_does_not_match_spanish_or_portuguese_todo(self):
+        html = "<button>Reemplazar todo</button><p>Todo el procesamiento ocurre en el navegador.</p><p>TODO: finalize copy</p>"
+        result = analyze_release_residue(html, "https://example.com/es/tool", "PUBLIC_TOOL")
+        todo = [item for item in result["findings"] if item["code"] == "TODO_MARKER"]
+        self.assertEqual(len(todo), 1)
+        self.assertEqual(todo[0]["match"], "TODO")
+
     def test_body_fallback_catches_unwrapped_copy(self):
         html = "<main><div>This feature is not yet implemented.</div></main>"
         result = analyze_release_residue(html, "https://example.com/tool", "PUBLIC_TOOL")

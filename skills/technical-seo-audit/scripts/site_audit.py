@@ -20,6 +20,14 @@ def _norm(url: str) -> str:
     return parsed._replace(fragment="").geturl()
 
 
+def _query_variant_of_canonical(url: str, canonical: str) -> bool:
+    parsed = urlsplit(url)
+    if not parsed.query:
+        return False
+    without_query = parsed._replace(query="", fragment="").geturl()
+    return _normalize_for_compare(without_query) == _normalize_for_compare(canonical)
+
+
 def _extract_page_record(requested_url: str, result, depth: int | None, source: str, profile: str) -> dict[str, object]:
     route_class = classify_route(result.url, profile)
     expected = expectation_for(route_class, profile)
@@ -40,16 +48,20 @@ def _extract_page_record(requested_url: str, result, depth: int | None, source: 
 
 
 def crawl_site(root_url: str, sitemap_urls: list[str], profile: str, max_pages: int = 200, timeout: int = 15) -> dict[str, object]:
-    queue: deque[tuple[str, int | None, str]] = deque([(root_url, 0, "crawl")])
+    # Prioritize the static internal-link graph over sitemap-only fetches. On large
+    # sitemaps, a single mixed queue can consume max_pages before category/listing
+    # pages are fetched and manufacture false orphan findings.
+    crawl_queue: deque[tuple[str, int | None, str]] = deque([(root_url, 0, "crawl")])
+    sitemap_queue: deque[tuple[str, int | None, str]] = deque()
     for url in sitemap_urls:
-        if _same_origin(root_url, url): queue.append((url, None, "sitemap"))
+        if _same_origin(root_url, url): sitemap_queue.append((url, None, "sitemap"))
     seen_requested: set[str] = set()
     pages: dict[str, dict[str, object]] = {}
     errors: list[dict[str, object]] = []
     indegree: defaultdict[str, int] = defaultdict(int)
     discovered_depth: dict[str, int] = {_norm(root_url): 0}
-    while queue and len(seen_requested) < max_pages:
-        requested, depth, source = queue.popleft()
+    while (crawl_queue or sitemap_queue) and len(seen_requested) < max_pages:
+        requested, depth, source = crawl_queue.popleft() if crawl_queue else sitemap_queue.popleft()
         requested = _norm(requested)
         if requested in seen_requested or not _same_origin(root_url, requested): continue
         seen_requested.add(requested)
@@ -66,7 +78,7 @@ def crawl_site(root_url: str, sitemap_urls: list[str], profile: str, max_pages: 
         if result.status_code != 200: continue
         canonical = record.get("canonical")
         if isinstance(canonical, str) and _same_origin(root_url, canonical) and _norm(canonical) not in seen_requested:
-            queue.append((_norm(canonical), None, "canonical"))
+            crawl_queue.append((_norm(canonical), None, "canonical"))
         for link in record["internal_links"]:
             target = _norm(link)
             indegree[target] += 1
@@ -77,13 +89,13 @@ def crawl_site(root_url: str, sitemap_urls: list[str], profile: str, max_pages: 
                 prior = discovered_depth.get(target)
                 if prior is None or next_depth < prior: discovered_depth[target] = next_depth
             if target not in seen_requested:
-                queue.append((target, discovered_depth.get(target), "crawl"))
+                crawl_queue.append((target, discovered_depth.get(target), "crawl"))
     for requested, record in pages.items():
         if record.get("depth") is None and requested in discovered_depth: record["depth"] = discovered_depth[requested]
         record["indegree"] = indegree.get(requested, 0)
     return {
         "pages": list(pages.values()), "errors": errors, "max_pages": max_pages,
-        "requested_checked": len(seen_requested), "queue_remaining": len(queue),
+        "requested_checked": len(seen_requested), "queue_remaining": len(crawl_queue) + len(sitemap_queue),
     }
 
 
@@ -138,7 +150,7 @@ def analyze_site(crawl: dict[str, object], sitemap_urls: list[str], profile: str
         if page.get("canonical_conflicting"):
             add("P1", "CONFLICTING_CANONICAL", url, "Multiple conflicting canonical targets were observed.")
         canonical = page.get("canonical")
-        if expected is True and isinstance(canonical, str) and _normalize_for_compare(canonical) != _normalize_for_compare(str(page.get("final_url") or url)):
+        if expected is True and isinstance(canonical, str) and _normalize_for_compare(canonical) != _normalize_for_compare(str(page.get("final_url") or url)) and not _query_variant_of_canonical(str(page.get("final_url") or url), canonical):
             add("P1", "NON_SELF_CANONICAL_PUBLIC", url, "Expected-indexable page canonicalizes elsewhere; confirm intentional consolidation.", {"canonical": canonical}, "REVIEW")
             canonical_page = page_by_requested.get(_norm(canonical))
             if canonical_page:
@@ -173,7 +185,10 @@ def analyze_site(crawl: dict[str, object], sitemap_urls: list[str], profile: str
                 add("P2", "REDIRECTING_INTERNAL_LINK", str(source["requested_url"]), "Internal link points to a redirect instead of the final URL.", {"target": target, "final": target_page.get("final_url")})
             canonical = target_page.get("canonical")
             if isinstance(canonical, str) and _normalize_for_compare(canonical) != _normalize_for_compare(str(target_page.get("final_url") or target)):
-                add("P1", "INTERNAL_LINK_TO_NONCANONICAL", str(source["requested_url"]), "Internal link points to a URL that canonicalizes elsewhere.", {"target": target, "canonical": canonical})
+                if _query_variant_of_canonical(str(target_page.get("final_url") or target), canonical):
+                    add("P2", "INTERNAL_LINK_TO_CANONICALIZED_QUERY", str(source["requested_url"]), "Internal link points to a query-state URL that canonicals to the base page; review crawl-efficiency intent.", {"target": target, "canonical": canonical}, "REVIEW")
+                else:
+                    add("P1", "INTERNAL_LINK_TO_NONCANONICAL", str(source["requested_url"]), "Internal link points to a URL that canonicalizes elsewhere.", {"target": target, "canonical": canonical})
 
     duplicate_titles = _group_duplicates(pages, "title")
     duplicate_h1 = _group_duplicates(pages, "h1")
@@ -194,7 +209,11 @@ def analyze_site(crawl: dict[str, object], sitemap_urls: list[str], profile: str
     canonical_groups: defaultdict[str, list[str]] = defaultdict(list)
     for page in pages:
         if page.get("expected_indexable") is True and isinstance(page.get("canonical"), str):
-            canonical_groups[_normalize_for_compare(str(page["canonical"]))].append(str(page["requested_url"]))
+            page_url = str(page.get("final_url") or page["requested_url"])
+            canonical = str(page["canonical"])
+            if _query_variant_of_canonical(page_url, canonical):
+                continue
+            canonical_groups[_normalize_for_compare(canonical)].append(str(page["requested_url"]))
     collisions = [{"canonical": key, "urls": urls} for key, urls in canonical_groups.items() if len(urls) > 1]
     for group in collisions:
         add("P1", "CANONICAL_COLLISION", group["urls"][0], "Multiple expected-indexable URLs converge on one canonical target; verify intentional consolidation.", group)

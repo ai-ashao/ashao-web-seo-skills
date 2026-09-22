@@ -5,7 +5,7 @@ from types import SimpleNamespace
 from unittest.mock import patch
 SCRIPTS = Path(__file__).parents[1] / "scripts"
 sys.path.insert(0, str(SCRIPTS))
-from site_audit import run_site_audit  # noqa: E402
+from site_audit import crawl_site, run_site_audit  # noqa: E402
 
 PAGES = {
     "https://example.com/": '<title>Home</title><h1>Home</h1><a href="/tools/pdf">PDF</a><a href="/dashboard">Dashboard</a>',
@@ -78,6 +78,44 @@ class SiteAuditTests(unittest.TestCase):
             duplicate["evidence"]["urls"],
             ["https://example.com/", "https://example.com/pricing"],
         )
+
+    @patch("site_audit.safe_fetch")
+    def test_crawl_prioritizes_internal_graph_before_sitemap_backlog(self, fetch):
+        pages = {
+            "https://example.com/": '<title>Home</title><h1>Home</h1><a href="/category">Category</a>',
+            "https://example.com/category": '<title>Category</title><h1>Category</h1><a href="/font/a">A</a>',
+            "https://example.com/font/a": '<title>A</title><h1>A</h1><link rel="canonical" href="/font/a">',
+            "https://example.com/font/b": '<title>B</title><h1>B</h1><link rel="canonical" href="/font/b">',
+            "https://example.com/font/c": '<title>C</title><h1>C</h1><link rel="canonical" href="/font/c">',
+        }
+        def side_effect(url, timeout):
+            return SimpleNamespace(error=None, status_code=200, body=pages[url], url=url, headers={"Content-Type":"text/html"}, redirect_chain=[])
+        fetch.side_effect = side_effect
+        result = crawl_site(
+            "https://example.com/",
+            ["https://example.com/font/a", "https://example.com/font/b", "https://example.com/font/c"],
+            "toolsite", max_pages=3, timeout=5,
+        )
+        checked = {page["requested_url"] for page in result["pages"]}
+        self.assertEqual(checked, {"https://example.com/", "https://example.com/category", "https://example.com/font/a"})
+
+    @patch("site_audit.safe_fetch")
+    def test_query_state_canonicalization_is_not_a_p1_canonical_defect(self, fetch):
+        pages = {
+            "https://example.com/": '<title>Home</title><h1>Home</h1><link rel="canonical" href="/"><a href="/?focus=one">Focus</a>',
+            "https://example.com/?focus=one": '<title>Home</title><h1>Home</h1><link rel="canonical" href="/">',
+        }
+        def side_effect(url, timeout):
+            return SimpleNamespace(error=None, status_code=200, body=pages[url], url=url, headers={"Content-Type":"text/html"}, redirect_chain=[])
+        fetch.side_effect = side_effect
+        result = run_site_audit("https://example.com/", [], "saas", max_pages=10, timeout=5)
+        findings = result["analysis"]["findings"]
+        codes = {item["code"] for item in findings}
+        self.assertNotIn("NON_SELF_CANONICAL_PUBLIC", codes)
+        self.assertNotIn("CANONICAL_COLLISION", codes)
+        self.assertIn("INTERNAL_LINK_TO_CANONICALIZED_QUERY", codes)
+        query_finding = next(item for item in findings if item["code"] == "INTERNAL_LINK_TO_CANONICALIZED_QUERY")
+        self.assertEqual(query_finding["priority"], "P2")
 
     @patch("site_audit.safe_fetch")
     def test_public_copy_release_residue_becomes_site_finding(self, fetch):

@@ -20,8 +20,8 @@ class Rule:
 
 
 def _rule(code: str, severity: str, pattern: str, group: str, detail: str, suggestion: str,
-          confidence: str = "high") -> Rule:
-    return Rule(code, severity, re.compile(pattern, re.IGNORECASE), group, detail, suggestion, confidence)
+          confidence: str = "high", flags: int = re.IGNORECASE) -> Rule:
+    return Rule(code, severity, re.compile(pattern, flags), group, detail, suggestion, confidence)
 
 
 RULES = [
@@ -34,6 +34,8 @@ RULES = [
         "TODO_MARKER", "P0", r"\b(?:TODO|FIXME|TBD)\b", "deterministic",
         "An internal work marker is visible in production-facing text.",
         "Remove the work marker and ship final copy or intentionally hide the unfinished feature.",
+        "high",
+        0,
     ),
     _rule(
         "RAW_RUNTIME_ERROR", "P0",
