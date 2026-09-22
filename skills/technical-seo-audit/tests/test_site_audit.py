@@ -127,19 +127,23 @@ class SiteAuditTests(unittest.TestCase):
             "https://example.com/": '<title>Home</title><h1>Home</h1>',
             "https://example.com/orphan-a": '<title>A</title><h1>A</h1><link rel="canonical" href="/orphan-a">',
             "https://example.com/orphan-b": '<title>B</title><h1>B</h1><link rel="canonical" href="/orphan-b">',
+            "https://example.com/orphan-c": '<title>C</title><h1>C</h1><link rel="canonical" href="/orphan-c">',
         }
         def side_effect(url, timeout):
             return SimpleNamespace(error=None, status_code=200, body=pages[url], url=url, headers={"Content-Type":"text/html"}, redirect_chain=[])
         fetch.side_effect = side_effect
         result = run_site_audit(
             "https://example.com/",
-            ["https://example.com/orphan-a", "https://example.com/orphan-b"],
-            "toolsite", max_pages=2, timeout=5,
+            ["https://example.com/orphan-a", "https://example.com/orphan-b", "https://example.com/orphan-c"],
+            "toolsite", max_pages=3, timeout=5,
         )
         findings = result["analysis"]["findings"]
         self.assertNotIn("ORPHAN_SITEMAP_PAGE", {item["code"] for item in findings})
-        candidate = next(item for item in findings if item["code"] == "ORPHAN_SITEMAP_CANDIDATE")
+        candidates = [item for item in findings if item["code"] == "ORPHAN_SITEMAP_CANDIDATE"]
+        self.assertEqual(len(candidates), 1)
+        candidate = candidates[0]
         self.assertEqual(candidate["priority"], "P2")
+        self.assertEqual(candidate["evidence"]["candidate_count"], 2)
         self.assertGreater(candidate["evidence"]["queue_remaining"], 0)
 
     @patch("site_audit.safe_fetch")
@@ -154,6 +158,9 @@ class SiteAuditTests(unittest.TestCase):
         result = run_site_audit("https://example.com/", ["https://example.com"], "saas", max_pages=10, timeout=5)
         codes = {item["code"] for item in result["analysis"]["findings"]}
         self.assertNotIn("CANONICAL_COLLISION", codes)
+        self.assertNotIn("DUPLICATE_TITLE", codes)
+        self.assertNotIn("DUPLICATE_H1", codes)
+        self.assertNotIn("DUPLICATE_META_DESCRIPTION", codes)
 
     @patch("site_audit.safe_fetch")
     def test_public_copy_release_residue_becomes_site_finding(self, fetch):
