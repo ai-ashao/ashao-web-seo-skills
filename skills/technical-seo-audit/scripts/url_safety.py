@@ -85,11 +85,10 @@ def validate_public_url(url: str, resolver: Resolver = socket.getaddrinfo) -> st
 
     host_for_netloc = f"[{ascii_hostname}]" if ":" in ascii_hostname else ascii_hostname
     netloc = f"{host_for_netloc}:{port}" if port is not None else host_for_netloc
-    path = quote(parsed.path or "/", safe="/%:@!    _resolve_public(parsed.hostname, effective_port, resolver)
-    path = parsed.path or "/"
-    return urlunsplit((parsed.scheme, parsed.netloc, path, parsed.query, ""))
-'()*+,;=-._~")
-    query = quote(parsed.query, safe="=&?/:;+,%@[]!
+    path = quote(parsed.path or "/", safe="/%:@!$&'()*+,;=-._~")
+    query = quote(parsed.query, safe="=&?/:;+,%@[]!$'()*-._~")
+    return urlunsplit((parsed.scheme, netloc, path, query, ""))
+
 def _decode_body(raw: bytes, content_type: str) -> str:
     charset = "utf-8"
     for part in content_type.split(";")[1:]:
