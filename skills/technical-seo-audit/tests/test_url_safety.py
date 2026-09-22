@@ -55,6 +55,23 @@ class PublicUrlValidationTests(unittest.TestCase):
         value = validate_public_url("example.com/path?q=1#fragment", resolver=resolver_for("93.184.216.34"))
         self.assertEqual(value, "https://example.com/path?q=1")
 
+    def test_percent_encodes_unicode_path_and_query(self):
+        value = validate_public_url(
+            "https://example.com/颜色/蓝色?q=红 色#fragment",
+            resolver=resolver_for("93.184.216.34"),
+        )
+        self.assertEqual(
+            value,
+            "https://example.com/%E9%A2%9C%E8%89%B2/%E8%93%9D%E8%89%B2?q=%E7%BA%A2%20%E8%89%B2",
+        )
+
+    def test_idna_encodes_unicode_hostname(self):
+        value = validate_public_url(
+            "https://münich.example/路径",
+            resolver=resolver_for("93.184.216.34"),
+        )
+        self.assertEqual(value, "https://xn--mnich-kva.example/%E8%B7%AF%E5%BE%84")
+
     def test_rejects_non_public_records_even_when_a_public_record_exists(self):
         with self.assertRaises(UnsafeUrlError):
             validate_public_url("https://example.com", resolver=resolver_for("93.184.216.34", "127.0.0.1"))
