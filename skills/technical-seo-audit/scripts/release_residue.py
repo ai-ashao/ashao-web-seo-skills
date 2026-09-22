@@ -113,7 +113,7 @@ RULES = [
         "medium",
     ),
     _rule(
-        "PRESIGNED_URL_JARGON", "P2", r"\bpre[- ]signed\s+URL\b", "jargon",
+        "PRESIGNED_URL_JARGON", "P2", r"\bpre[- ]?signed\s+URL\b", "jargon",
         "Backend delivery terminology may be exposed to non-technical users.",
         "Use user language such as download link or secure link unless this is developer documentation.",
         "medium",
