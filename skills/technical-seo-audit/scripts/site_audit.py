@@ -172,7 +172,17 @@ def analyze_site(crawl: dict[str, object], sitemap_urls: list[str], profile: str
             if isinstance(canonical, str) and _normalize_for_compare(canonical) != _normalize_for_compare(str(page.get("final_url") or url)):
                 add("P1", "SITEMAP_NONCANONICAL", url, "Sitemap URL canonicalizes to another URL.", {"canonical": canonical})
             if url != _norm(root_url) and int(page.get("indegree") or 0) == 0:
-                add("P1", "ORPHAN_SITEMAP_PAGE", url, "Sitemap URL has zero static internal-link indegree in the bounded crawl.")
+                if int(crawl.get("queue_remaining") or 0) > 0:
+                    add(
+                        "P2",
+                        "ORPHAN_SITEMAP_CANDIDATE",
+                        url,
+                        "Sitemap URL has zero observed static internal-link indegree, but the bounded crawl ended with unchecked URLs; orphan status is not proven.",
+                        {"queue_remaining": crawl.get("queue_remaining"), "max_pages": crawl.get("max_pages")},
+                        "REVIEW",
+                    )
+                else:
+                    add("P1", "ORPHAN_SITEMAP_PAGE", url, "Sitemap URL has zero static internal-link indegree after the bounded crawl completed.")
 
     for source in pages:
         for target in source.get("internal_links", []):
@@ -213,7 +223,12 @@ def analyze_site(crawl: dict[str, object], sitemap_urls: list[str], profile: str
             canonical = str(page["canonical"])
             if _query_variant_of_canonical(page_url, canonical):
                 continue
-            canonical_groups[_normalize_for_compare(canonical)].append(str(page["requested_url"]))
+            key = _normalize_for_compare(canonical)
+            requested_url = str(page["requested_url"])
+            requested_normalized = _normalize_for_compare(requested_url)
+            if any(_normalize_for_compare(existing) == requested_normalized for existing in canonical_groups[key]):
+                continue
+            canonical_groups[key].append(requested_url)
     collisions = [{"canonical": key, "urls": urls} for key, urls in canonical_groups.items() if len(urls) > 1]
     for group in collisions:
         add("P1", "CANONICAL_COLLISION", group["urls"][0], "Multiple expected-indexable URLs converge on one canonical target; verify intentional consolidation.", group)
