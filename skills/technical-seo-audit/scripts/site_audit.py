@@ -184,6 +184,7 @@ def analyze_site(crawl: dict[str, object], sitemap_urls: list[str], profile: str
                 else:
                     add("P1", "ORPHAN_SITEMAP_PAGE", url, "Sitemap URL has zero static internal-link indegree after the bounded crawl completed.")
 
+    canonicalized_query_links: defaultdict[str, dict[str, object]] = defaultdict(lambda: {"targets": set(), "sources": set(), "canonical": None})
     for source in pages:
         for target in source.get("internal_links", []):
             target = _norm(target)
@@ -196,9 +197,31 @@ def analyze_site(crawl: dict[str, object], sitemap_urls: list[str], profile: str
             canonical = target_page.get("canonical")
             if isinstance(canonical, str) and _normalize_for_compare(canonical) != _normalize_for_compare(str(target_page.get("final_url") or target)):
                 if _query_variant_of_canonical(str(target_page.get("final_url") or target), canonical):
-                    add("P2", "INTERNAL_LINK_TO_CANONICALIZED_QUERY", str(source["requested_url"]), "Internal link points to a query-state URL that canonicals to the base page; review crawl-efficiency intent.", {"target": target, "canonical": canonical}, "REVIEW")
+                    key = _normalize_for_compare(canonical)
+                    bucket = canonicalized_query_links[key]
+                    bucket["canonical"] = canonical
+                    bucket["targets"].add(target)
+                    bucket["sources"].add(str(source["requested_url"]))
                 else:
                     add("P1", "INTERNAL_LINK_TO_NONCANONICAL", str(source["requested_url"]), "Internal link points to a URL that canonicalizes elsewhere.", {"target": target, "canonical": canonical})
+
+    for key, bucket in sorted(canonicalized_query_links.items()):
+        targets = sorted(str(value) for value in bucket["targets"])
+        sources = sorted(str(value) for value in bucket["sources"])
+        add(
+            "P2",
+            "INTERNAL_LINK_TO_CANONICALIZED_QUERY",
+            sources[0] if sources else root_url,
+            "Internal links point to query-state URLs that canonicalize to the base page; review whether these states need crawlable hrefs.",
+            {
+                "canonical": bucket["canonical"] or key,
+                "unique_query_urls": len(targets),
+                "source_pages": len(sources),
+                "sample_targets": targets[:10],
+                "sample_sources": sources[:10],
+            },
+            "REVIEW",
+        )
 
     duplicate_titles = _group_duplicates(pages, "title")
     duplicate_h1 = _group_duplicates(pages, "h1")
