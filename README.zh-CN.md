@@ -4,11 +4,12 @@
 
 这个仓库只保留**真正需要固定流程、证据契约或确定性脚本**的 Skill。目标不是让 Skill 越多越好，而是让 AI 在关键决策上少犯重复错误，同时保留正常推理空间。
 
-## 活跃 Skill（7 个）
+## 活跃 Skill（8 个）
 
 | Skill | 只回答什么 | 什么时候用 |
 |---|---|---|
 | `pain-mining` | **PAIN**：用户反复遇到什么问题、怎么凑合解决、有哪些产品缺口？ | 工具站选品、功能差异化、页面机会前置研究 |
+| `reddit-subreddit-scan` | **FEED**：一个已知 subreddit 最近一段时间完整出现了什么？ | 每周板块扫描、机会监测、实体/目录缺口发现 |
 | `site-opportunity-scorecard` | **WHERE**：独立站、专区、单页还是不做？ | 架构尚未决定 |
 | `serp-siege` | **WHAT**：哪些 Page Families / SEO MVP 页面先做？ | 方向已经决定 |
 | `reference-website-builder` | **HOW**：参考页怎么分析、做原型、迁入真实项目？ | UI/交互/参考站任务 |
@@ -30,27 +31,27 @@
 Idea / problem
        ↓
 pain-mining（需要用户痛点/替代方案证据时）
-PAIN: users struggle with what, and how are they coping?
        ↓
 site-opportunity-scorecard
-WHERE should it live?
        ↓
 serp-siege
-WHAT should we build?
        ↓
 reference-website-builder
-HOW should important pages work?
        ↓
 technical-seo-audit
-Can search engines crawl/index it?
        ↓
 helpful-value-audit
-Does the page genuinely satisfy the task?
        ↓
 Launch / iterate from GSC and product data
+
+已知 subreddit + 明确最近时间窗口
+       ↓
+reddit-subreddit-scan
 ```
 
 `pain-mining` 是 **SEO 之前的用户证据层**。它可以输出 Pain Graph、Workaround Chain、Feature Gap 和 `PAGE_CANDIDATE`，但不能把 Reddit 里的重复讨论当成搜索量证据。页面候选仍需在下游用竞品 Top Pages、Ahrefs/Semrush 和 SERP 验证。
+
+`reddit-subreddit-scan` 刻意保持轻量：只负责一个公开 subreddit 的按时间分页扫描、覆盖范围记录、可选评论读取和候选/缺口整理。它不负责跨 Reddit 搜索，也不自动发帖或评论。
 
 `web-asset-pipeline` 在任何需要生产素材的阶段按需调用。
 

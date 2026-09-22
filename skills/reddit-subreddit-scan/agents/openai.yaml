@@ -1,0 +1,6 @@
+interface:
+  display_name: "Reddit Subreddit Scan"
+  short_description: "Chronologically scan one public subreddit over a bounded time window."
+  default_prompt: "Use $reddit-subreddit-scan for a read-only chronological scan of one known subreddit. Paginate new.json with data.after until the requested cutoff, report coverage explicitly, fetch comments only when needed, stop/back off on access controls, and separate exact evidence from model inference."
+policy:
+  allow_implicit_invocation: true
