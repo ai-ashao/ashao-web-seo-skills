@@ -102,8 +102,9 @@ class SiteAuditTests(unittest.TestCase):
     @patch("site_audit.safe_fetch")
     def test_query_state_canonicalization_is_not_a_p1_canonical_defect(self, fetch):
         pages = {
-            "https://example.com/": '<title>Home</title><h1>Home</h1><link rel="canonical" href="/"><a href="/?focus=one">Focus</a>',
+            "https://example.com/": '<title>Home</title><h1>Home</h1><link rel="canonical" href="/"><a href="/?focus=one">One</a><a href="/?focus=two">Two</a>',
             "https://example.com/?focus=one": '<title>Home</title><h1>Home</h1><link rel="canonical" href="/">',
+            "https://example.com/?focus=two": '<title>Home</title><h1>Home</h1><link rel="canonical" href="/">',
         }
         def side_effect(url, timeout):
             return SimpleNamespace(error=None, status_code=200, body=pages[url], url=url, headers={"Content-Type":"text/html"}, redirect_chain=[])
@@ -114,8 +115,11 @@ class SiteAuditTests(unittest.TestCase):
         self.assertNotIn("NON_SELF_CANONICAL_PUBLIC", codes)
         self.assertNotIn("CANONICAL_COLLISION", codes)
         self.assertIn("INTERNAL_LINK_TO_CANONICALIZED_QUERY", codes)
-        query_finding = next(item for item in findings if item["code"] == "INTERNAL_LINK_TO_CANONICALIZED_QUERY")
+        query_findings = [item for item in findings if item["code"] == "INTERNAL_LINK_TO_CANONICALIZED_QUERY"]
+        self.assertEqual(len(query_findings), 1)
+        query_finding = query_findings[0]
         self.assertEqual(query_finding["priority"], "P2")
+        self.assertEqual(query_finding["evidence"]["unique_query_urls"], 2)
 
     @patch("site_audit.safe_fetch")
     def test_truncated_crawl_downgrades_orphan_to_candidate(self, fetch):
