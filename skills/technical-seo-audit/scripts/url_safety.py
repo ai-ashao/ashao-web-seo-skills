@@ -10,7 +10,7 @@ import socket
 from dataclasses import dataclass
 from typing import Callable
 from urllib.error import HTTPError, URLError
-from urllib.parse import urljoin, urlsplit, urlunsplit
+from urllib.parse import quote, urljoin, urlsplit, urlunsplit
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 MAX_REDIRECTS = 5
@@ -77,9 +77,73 @@ def validate_public_url(url: str, resolver: Resolver = socket.getaddrinfo) -> st
     effective_port = port or (443 if parsed.scheme == "https" else 80)
     if effective_port not in ALLOWED_PORTS:
         raise UnsafeUrlError(f"Only ports 80 and 443 are allowed, got {effective_port}")
-    _resolve_public(parsed.hostname, effective_port, resolver)
+    try:
+        ascii_hostname = parsed.hostname.encode("idna").decode("ascii")
+    except UnicodeError as exc:
+        raise UnsafeUrlError("URL hostname cannot be IDNA-encoded") from exc
+    _resolve_public(ascii_hostname, effective_port, resolver)
+
+    host_for_netloc = f"[{ascii_hostname}]" if ":" in ascii_hostname else ascii_hostname
+    netloc = f"{host_for_netloc}:{port}" if port is not None else host_for_netloc
+    path = quote(parsed.path or "/", safe="/%:@!    _resolve_public(parsed.hostname, effective_port, resolver)
     path = parsed.path or "/"
     return urlunsplit((parsed.scheme, parsed.netloc, path, parsed.query, ""))
+'()*+,;=-._~")
+    query = quote(parsed.query, safe="=&?/:;+,%@[]!
+def _decode_body(raw: bytes, content_type: str) -> str:
+    charset = "utf-8"
+    for part in content_type.split(";")[1:]:
+        key, _, value = part.partition("=")
+        if key.strip().lower() == "charset" and value.strip():
+            charset = value.strip().strip('"')
+            break
+    try:
+        return raw.decode(charset, errors="replace")
+    except LookupError:
+        return raw.decode("utf-8", errors="replace")
+
+def _header_value(headers: dict[str, str], name: str, default: str = "") -> str:
+    return next((value for key, value in headers.items() if key.lower() == name.lower()), default)
+
+def safe_fetch(url: str, timeout: int = 15, max_bytes: int = MAX_RESPONSE_BYTES) -> FetchResult:
+    current_url = validate_public_url(url)
+    redirects: list[dict[str, object]] = []
+    opener = build_opener(_NoRedirect())
+    for _ in range(MAX_REDIRECTS + 1):
+        request = Request(current_url, headers=DEFAULT_HEADERS)
+        response = None
+        try:
+            response = opener.open(request, timeout=timeout)
+        except HTTPError as exc:
+            response = exc
+        except (URLError, TimeoutError, OSError, UnicodeError) as exc:
+            return FetchResult(current_url, None, {}, None, 0, redirects, str(exc))
+        headers = dict(response.headers.items())
+        if hasattr(response.headers, "get_all"):
+            x_robots_values = response.headers.get_all("X-Robots-Tag")
+            if x_robots_values:
+                headers["X-Robots-Tag"] = "\n".join(x_robots_values)
+        status_code = response.code
+        location = _header_value(headers, "Location")
+        if 300 <= status_code < 400 and location:
+            redirects.append({"url": current_url, "status_code": status_code})
+            if len(redirects) > MAX_REDIRECTS:
+                return FetchResult(current_url, status_code, headers, None, 0, redirects, "Too many redirects")
+            try:
+                current_url = validate_public_url(urljoin(current_url, location))
+            except UnsafeUrlError as exc:
+                return FetchResult(current_url, status_code, headers, None, 0, redirects, str(exc))
+            continue
+        try:
+            raw = response.read(max_bytes + 1)
+        except OSError as exc:
+            return FetchResult(current_url, status_code, headers, None, 0, redirects, str(exc))
+        if len(raw) > max_bytes:
+            return FetchResult(current_url, status_code, headers, None, len(raw), redirects, f"Response exceeds {max_bytes} byte limit")
+        return FetchResult(current_url, status_code, headers, _decode_body(raw, _header_value(headers, "Content-Type")), len(raw), redirects, None)
+    return FetchResult(current_url, None, {}, None, 0, redirects, "Unexpected redirect handling error")
+()*-._~")
+    return urlunsplit((parsed.scheme, netloc, path, query, ""))
 
 def _decode_body(raw: bytes, content_type: str) -> str:
     charset = "utf-8"
