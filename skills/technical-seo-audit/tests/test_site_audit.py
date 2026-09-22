@@ -79,5 +79,35 @@ class SiteAuditTests(unittest.TestCase):
             ["https://example.com/", "https://example.com/pricing"],
         )
 
+    @patch("site_audit.safe_fetch")
+    def test_public_copy_release_residue_becomes_site_finding(self, fetch):
+        pages = {
+            "https://example.com/": (
+                '<title>Home</title><h1>Home</h1>'
+                '<p>This MVP ships in Phase 1 while we finish the implementation.</p>'
+            ),
+        }
+
+        def side_effect(url, timeout):
+            return SimpleNamespace(
+                error=None,
+                status_code=200,
+                body=pages[url],
+                url=url,
+                headers={"Content-Type": "text/html"},
+                redirect_chain=[],
+            )
+
+        fetch.side_effect = side_effect
+        result = run_site_audit("https://example.com/", [], "saas", max_pages=10, timeout=5)
+        findings = result["analysis"]["findings"]
+        codes = {item["code"] for item in findings}
+        self.assertIn("PUBLIC_COPY_MVP_LANGUAGE", codes)
+        self.assertIn("PUBLIC_COPY_PHASE_LANGUAGE", codes)
+        mvp = next(item for item in findings if item["code"] == "PUBLIC_COPY_MVP_LANGUAGE")
+        self.assertEqual(mvp["priority"], "P1")
+        self.assertEqual(mvp["evidence"]["element"], "p")
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -1,6 +1,6 @@
 ---
 name: technical-seo-audit
-description: Run an evidence-led technical SEO audit of public URLs and bounded site inventories. Supports generic, toolsite, SaaS, hybrid, and auto profiles with page-level route classification. Checks HTTP delivery, robots directives, robots.txt, sitemaps, canonical URLs and targets, metadata, headings, static crawlable links, internal-link architecture, orphan candidates, crawl depth, sitemap/indexability/canonical consistency, duplicate template signals, JSON-LD syntax, html lang, and hreflang reachability/reciprocity. Use for technical SEO audits, SEO-first release gates, multilingual checks, crawlability/indexability reviews, and mixed tool+SaaS sites. Do not use it to claim rankings, traffic, keyword demand, HCU/helpfulness, product quality, or conversion quality without separate evidence.
+description: Run an evidence-led technical SEO and production-readiness audit of public URLs and bounded site inventories. Supports generic, toolsite, SaaS, hybrid, and auto profiles with page-level route classification. Checks HTTP delivery, robots directives, robots.txt, sitemaps, canonical URLs and targets, metadata, headings, static crawlable links, internal-link architecture, orphan candidates, crawl depth, sitemap/indexability/canonical consistency, duplicate template signals, JSON-LD syntax, html lang, hreflang reachability/reciprocity, and public-facing development-stage copy residue. Use for technical SEO audits, SEO-first release gates, multilingual checks, crawlability/indexability reviews, production copy checks, and mixed tool+SaaS sites. Do not use it to claim rankings, traffic, keyword demand, HCU/helpfulness, product quality, or conversion quality without separate evidence.
 ---
 
 # Technical SEO Audit
@@ -40,6 +40,7 @@ Route classes:
 - Validate hreflang using Google-compatible language/script/region structure, self-reference, bounded target reachability, `noindex`, reciprocity, and cluster completeness. `x-default` remains optional.
 - Treat JSON-LD syntax as observable; schema truthfulness/eligibility remains review work.
 - Never claim Google indexation, GSC coverage, rankings, traffic, crawl frequency, field CWV, or demand from public HTML fetches.
+- Scan static public-facing copy for deterministic development residue such as TODO/FIXME/TBD, lorem placeholders, raw runtime/configuration failures, local-development endpoints, MVP/phase/internal implementation wording, mock/staging/debug language, and context-sensitive infrastructure jargon. Treat contextual jargon as review evidence, not an automatic SEO defect.
 
 ## SEO-first site mode
 
@@ -87,7 +88,8 @@ Site mode combines sitemap inventory with a bounded same-origin static crawl. It
 - conflicting canonical declarations and canonical collisions;
 - duplicate titles/H1/meta descriptions across expected-indexable pages;
 - expected-indexable scripted pages missing static title/H1 as rendered-parity review candidates;
-- public routes accidentally `noindex` and private/app routes returning 200 without `noindex`.
+- public routes accidentally `noindex` and private/app routes returning 200 without `noindex`;
+- public-facing release residue in title, description, headings, CTA/control labels, placeholders, alerts, links, and visible body copy.
 
 ## Page mode and explicit overrides
 
@@ -119,6 +121,14 @@ SEO-first site findings use:
 - `P2`: meaningful cleanup or template risk, e.g. redirecting internal links or duplicate metadata.
 - `P3`: optional polish/hypothesis.
 
+For public-facing copy residue:
+
+- P0: deterministic release blocker, e.g. TODO, lorem placeholder text, raw runtime errors, missing runtime configuration, or an exposed localhost endpoint on an ordinary public page.
+- P1: strong production-readiness review, e.g. MVP, Phase 1/2, internal implementation notes, mock/staging/debug wording, or explicit "not yet implemented" copy on an ordinary public-facing acquisition/tool route.
+- P2: contextual terminology review, especially infrastructure/process jargon that may be legitimate for a technical audience.
+
+P0/P1 here describe release readiness, not a claim that the wording itself is a Google ranking factor.
+
 Do not promote schema polish, generic image-alt advice, or arbitrary metadata-length edits above crawl/index/canonical/internal-link defects.
 
 ## Mixed SaaS + tool sites
@@ -139,6 +149,25 @@ Do not classify the whole site as either “SEO site” or “app.” Example:
 ```
 
 This route-level model is the default for `hybrid` and the preferred architecture for mixed acquisition + SaaS products.
+
+## Public-facing release residue check
+
+Run this as part of the release gate, especially for AI/Codex-built sites where implementation-plan language can leak into production UI.
+
+The checker inspects static:
+
+- title and meta description;
+- H1-H6;
+- buttons, labels, links, legends, summaries, list/table copy;
+- control placeholders, aria-label/title attributes, and submit/button values;
+- visible body text as a fallback;
+- alert/status text when present.
+
+It intentionally ignores script/style/template/noscript/SVG and code/preformatted blocks so developer documentation examples do not dominate the signal.
+
+The rule is audience appropriateness, not a blanket ban on technical words. Route class and technical-documentation paths can downgrade or suppress contextual terminology. Obvious release residue remains reportable.
+
+When a finding is semantic rather than deterministic, report the exact observed copy plus rule, element, confidence, and a user-facing rewrite direction. Use references/release-residue.md for calibration and false-positive handling.
 
 ## Safe retrieval boundary
 

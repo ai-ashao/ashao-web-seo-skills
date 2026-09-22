@@ -11,6 +11,7 @@ from typing import Any
 from urllib.parse import urljoin, urlsplit
 
 from profiles import ROUTE_CLASSES, decide_route
+from release_residue import analyze_release_residue
 from url_safety import UnsafeUrlError, safe_fetch
 
 ROBOTS_DIRECTIVE_NAMES = {
@@ -338,7 +339,7 @@ def _hreflang_check(parser: PageParser, self_reference_url: str, expected_multil
 
 def analyze_html(html: str, final_url: str, keyword: str | None, expected_indexable: bool | None,
                  response_headers: dict[str, str] | None = None, http_status: int | None = 200,
-                 expected_multilingual: bool = False) -> dict[str, object]:
+                 expected_multilingual: bool = False, route_class: str | None = None) -> dict[str, object]:
     parser = PageParser(final_url)
     parser.feed(html)
     parser.close()
@@ -365,6 +366,7 @@ def analyze_html(html: str, final_url: str, keyword: str | None, expected_indexa
         "images": {"status": "review" if missing_alt else "info", "count": len(parser.images), "missing_alt_attribute": missing_alt, "empty_alt": sum(1 for image in parser.images if image["empty_alt"]), "detail": "Some images lack alt; inspect only content-bearing images." if missing_alt else "No missing alt attributes observed; empty alt can be correct for decoration."},
         "static_links": {"status": "info", "internal": len(internal_links), "external": len(external_links), "links": parser.links, "internal_links": internal_links, "detail": "Static crawlable links inventoried. Site mode validates status, redirects, canonical targets, depth, and orphaning."},
         "content": {"status": "info", "word_count": word_count, "detail": "Word count is an observation, not a content-quality or ranking score."},
+        "release_residue": analyze_release_residue(html, final_url, route_class),
         "rendering": {"status": "unassessed" if parser.script_count else "info", "script_count": parser.script_count, "static_core_signals": {"title": bool(title), "h1": bool(parser.headings["h1"]), "internal_links": bool(internal_links), "visible_text": bool(text)}, "detail": "Scripts are present; rendered DOM remains unassessed. Do not infer parity from static word count." if parser.script_count else "No script tags observed; browser-rendered state was not required for this static evidence pass."},
         "json_ld": _json_ld_check(parser.json_ld_blocks),
         "hreflang": _hreflang_check(parser, canonical_target or final_url, expected_multilingual),
@@ -438,7 +440,7 @@ def audit_page(url: str, keyword: str | None = None, expected_indexable: bool | 
         return {"url": url, "status": "error", "error": str(exc)}
     if result.error:
         return {"url": result.url, "status": "error", "error": result.error, "redirect_chain": result.redirect_chain}
-    checks = analyze_html(result.body or "", result.url, keyword, expected_indexable, result.headers, result.status_code, expected_multilingual)
+    checks = analyze_html(result.body or "", result.url, keyword, expected_indexable, result.headers, result.status_code, expected_multilingual, decision.route_class)
     if validate_canonical and isinstance(checks.get("canonical"), dict):
         checks["canonical"]["target_validation"] = validate_canonical_target(checks["canonical"], expected_indexable, timeout)
     hreflang = checks["hreflang"]

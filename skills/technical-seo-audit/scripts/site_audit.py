@@ -23,7 +23,7 @@ def _norm(url: str) -> str:
 def _extract_page_record(requested_url: str, result, depth: int | None, source: str, profile: str) -> dict[str, object]:
     route_class = classify_route(result.url, profile)
     expected = expectation_for(route_class, profile)
-    checks = analyze_html(result.body or "", result.url, None, expected, result.headers, result.status_code, False)
+    checks = analyze_html(result.body or "", result.url, None, expected, result.headers, result.status_code, False, route_class)
     return {
         "requested_url": requested_url, "final_url": result.url, "http_status": result.status_code,
         "redirected": bool(result.redirect_chain), "redirect_chain": result.redirect_chain, "depth": depth, "source": source,
@@ -35,6 +35,7 @@ def _extract_page_record(requested_url: str, result, depth: int | None, source: 
         "internal_links": [item["href"] for item in checks["static_links"].get("internal_links", [])],
         "script_count": checks["rendering"].get("script_count", 0),
         "static_core_signals": checks["rendering"].get("static_core_signals", {}),
+        "release_residue": checks.get("release_residue", {}),
     }
 
 
@@ -107,6 +108,29 @@ def analyze_site(crawl: dict[str, object], sitemap_urls: list[str], profile: str
     for page in pages:
         url = str(page["requested_url"])
         expected = page.get("expected_indexable")
+        release_residue = page.get("release_residue")
+        if isinstance(release_residue, dict):
+            for item in release_residue.get("findings", []):
+                if not isinstance(item, dict):
+                    continue
+                severity = str(item.get("severity") or "P2")
+                if severity not in {"P0", "P1", "P2", "P3"}:
+                    severity = "P2"
+                code = str(item.get("code") or "RELEASE_RESIDUE")
+                add(
+                    severity,
+                    f"PUBLIC_COPY_{code}",
+                    url,
+                    str(item.get("detail") or "Potential development-stage wording is visible in public-facing copy."),
+                    {
+                        "element": item.get("element"),
+                        "text": item.get("text"),
+                        "match": item.get("match"),
+                        "suggestion": item.get("suggestion"),
+                        "confidence": item.get("confidence"),
+                    },
+                    "OBSERVED" if severity == "P0" else "REVIEW",
+                )
         if expected is True and page.get("noindex"):
             add("P0", "EXPECTED_INDEXABLE_NOINDEX", url, "Public search landing route is noindex.", evidence_label="REVIEW")
         if expected is False and not page.get("noindex") and page.get("http_status") == 200:
