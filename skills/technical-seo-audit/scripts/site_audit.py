@@ -101,11 +101,22 @@ def crawl_site(root_url: str, sitemap_urls: list[str], profile: str, max_pages: 
 
 def _group_duplicates(pages: list[dict[str, object]], field: str) -> list[dict[str, object]]:
     groups: defaultdict[str, list[str]] = defaultdict(list)
+    normalized_urls: defaultdict[str, set[str]] = defaultdict(set)
     for page in pages:
-        if page.get("expected_indexable") is not True: continue
+        if page.get("expected_indexable") is not True:
+            continue
         value = page.get(field)
-        if field == "h1": value = " | ".join(value or [])
-        if isinstance(value, str) and value.strip(): groups[value.strip()].append(str(page["requested_url"]))
+        if field == "h1":
+            value = " | ".join(value or [])
+        if not isinstance(value, str) or not value.strip():
+            continue
+        key = value.strip()
+        url = str(page["requested_url"])
+        normalized = _normalize_for_compare(url)
+        if normalized in normalized_urls[key]:
+            continue
+        normalized_urls[key].add(normalized)
+        groups[key].append(url)
     return [{"value": value, "urls": urls} for value, urls in groups.items() if len(urls) > 1]
 
 
@@ -114,6 +125,7 @@ def analyze_site(crawl: dict[str, object], sitemap_urls: list[str], profile: str
     page_by_requested = {str(page["requested_url"]): page for page in pages}
     sitemap_set = {_norm(url) for url in sitemap_urls}
     findings: list[dict[str, object]] = []
+    orphan_candidates: list[str] = []
     def add(priority: str, code: str, url: str, detail: str, evidence: dict[str, object] | None = None, evidence_label: str = "OBSERVED") -> None:
         findings.append({"priority": priority, "evidence_label": evidence_label, "code": code, "url": url, "detail": detail, "evidence": evidence or {}})
 
@@ -173,16 +185,24 @@ def analyze_site(crawl: dict[str, object], sitemap_urls: list[str], profile: str
                 add("P1", "SITEMAP_NONCANONICAL", url, "Sitemap URL canonicalizes to another URL.", {"canonical": canonical})
             if url != _norm(root_url) and int(page.get("indegree") or 0) == 0:
                 if int(crawl.get("queue_remaining") or 0) > 0:
-                    add(
-                        "P2",
-                        "ORPHAN_SITEMAP_CANDIDATE",
-                        url,
-                        "Sitemap URL has zero observed static internal-link indegree, but the bounded crawl ended with unchecked URLs; orphan status is not proven.",
-                        {"queue_remaining": crawl.get("queue_remaining"), "max_pages": crawl.get("max_pages")},
-                        "REVIEW",
-                    )
+                    orphan_candidates.append(url)
                 else:
                     add("P1", "ORPHAN_SITEMAP_PAGE", url, "Sitemap URL has zero static internal-link indegree after the bounded crawl completed.")
+
+    if orphan_candidates:
+        add(
+            "P2",
+            "ORPHAN_SITEMAP_CANDIDATE",
+            orphan_candidates[0],
+            "Some sitemap URLs have zero observed static internal-link indegree, but the bounded crawl ended with unchecked URLs; orphan status is not proven.",
+            {
+                "candidate_count": len(orphan_candidates),
+                "sample_urls": sorted(orphan_candidates)[:20],
+                "queue_remaining": crawl.get("queue_remaining"),
+                "max_pages": crawl.get("max_pages"),
+            },
+            "REVIEW",
+        )
 
     canonicalized_query_links: defaultdict[str, dict[str, object]] = defaultdict(lambda: {"targets": set(), "sources": set(), "canonical": None})
     for source in pages:
