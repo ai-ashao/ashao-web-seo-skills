@@ -1,25 +1,28 @@
 {
-  "schemaVersion": 1,
-  "pageSlug": "replace-me",
+  "schemaVersion": 2,
+  "siteKey": "example-com-00000000",
+  "pageKey": "page-00000000",
   "sourcePages": [
     "https://example.com/page"
   ],
   "brandTerms": [
     "Example Brand"
   ],
-  "temporaryServedRoot": "public/__reference__/replace-me",
-  "rawArchiveRoot": ".reference-assets/replace-me/raw",
+  "temporaryServedRoot": "public/__reference__/example-com-00000000/page-00000000",
+  "rawArchiveRoot": ".reference-assets/example-com-00000000/page-00000000/raw",
   "assetMapPath": "src/config/reference-assets.ts",
   "productionReady": false,
   "assets": [
     {
-      "id": "page.hero.background",
+      "id": "example-com-00000000.page-00000000.hero.background",
+      "siteKey": "example-com-00000000",
+      "pageKey": "page-00000000",
       "type": "image",
       "sourcePage": "https://example.com/page",
       "sourceUrl": "https://example.com/assets/hero.webp",
       "sourceHost": "example.com",
       "usage": "Hero background layer",
-      "temporaryPath": "/__reference__/replace-me/hero-background.webp",
+      "temporaryPath": "/__reference__/example-com-00000000/page-00000000/hero-background.webp",
       "replacementPath": null,
       "replacementConstraints": {
         "width": 1600,

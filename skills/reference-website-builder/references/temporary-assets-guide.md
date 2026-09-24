@@ -17,19 +17,23 @@ They are not automatically approved for public release.
 
 ## Required directory roles
 
+For high-fidelity multi-page work, namespace temporary assets by `site-key/page-key`:
+
 ```text
-.reference-assets/<slug>/raw/
-public/__reference__/<slug>/
+.reference-assets/<site-key>/<page-key>/raw/
+public/__reference__/<site-key>/<page-key>/
 src/config/reference-assets.*
-docs/reference-build/<slug>/asset-manifest.json
-docs/reference-build/<slug>/replacement-checklist.md
+docs/reference-build/<site-key>/<page-key>/asset-manifest.json
+docs/reference-build/<site-key>/<page-key>/replacement-checklist.md
 ```
+
+A single-page lightweight prototype may use a simpler slug, but must not collide with existing prototype assets.
 
 Framework-specific paths may differ, but the roles must remain distinct.
 
 ### Raw archive
 
-`.reference-assets/<slug>/raw/` contains original downloads and capture artifacts.
+`.reference-assets/.../raw/` contains original downloads and capture artifacts.
 
 - never import it from application code
 - normally add `.reference-assets/` to `.gitignore`
@@ -38,12 +42,13 @@ Framework-specific paths may differ, but the roles must remain distinct.
 
 ### Temporary served directory
 
-`public/__reference__/<slug>/` contains only files needed to render the local reconstruction.
+`public/__reference__/...` contains only files needed to render the local reconstruction.
 
 - treat every file as development-only
 - never mix it into normal production media directories
 - remove it or empty it before production release
 - avoid external hotlinks
+- keep each explicit page in its own namespace unless sharing is deliberate and recorded
 
 ### Central asset map
 
@@ -58,11 +63,14 @@ referenceAssets.workbench.preview.src
 
 They should not repeat physical paths such as `/__reference__/...` throughout the component tree.
 
+For multi-page work, logical IDs should include enough page/site context to avoid accidental reuse.
+
 ## Manifest fields
 
 Every temporary asset should include:
 
 - stable `id`
+- `siteKey` and `pageKey` for high-fidelity multi-page work
 - `type`
 - `sourcePage`
 - `sourceUrl`

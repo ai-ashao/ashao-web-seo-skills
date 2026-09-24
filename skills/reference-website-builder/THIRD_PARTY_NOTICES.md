@@ -6,9 +6,11 @@ This skill was independently rewritten and adapted from workflow concepts found 
 - Source: https://github.com/JCodesMore/ai-website-cloner-template
 - License: MIT
 
-Concepts retained in modified form include browser-based reconnaissance, page topology mapping, behavior inspection, component specifications, optional parallel worktrees, and visual QA.
+Concepts retained in modified form include browser-based reconnaissance, page topology mapping, behavior inspection, component specifications, optional parallel worktrees, visual QA, deterministic style/asset extraction, page-output isolation, and staged builder dispatch.
 
-Major behavioral changes include explicit page-only scope, existing-project-first integration, separate reconstruction and adaptation stages, isolated development-only reference assets, centralized asset mapping, optional release review, authorized migration mode, SEO/accessibility/performance checks, and removal of the mandatory Next.js scaffold.
+Version 2.1 incorporates newer engineering ideas from the upstream workflow—especially collision-resistant page namespaces, standardized extraction recipes, foreman-style extract/spec/build overlap, and pre-dispatch completeness checks—while preserving this Skill's different product contract.
+
+Major behavioral differences remain: explicit page-only scope, lightweight mode selection, existing-project-first integration, separate reconstruction and adaptation stages, isolated development-only reference assets, centralized asset mapping, production release review, authorized migration mode, SEO/accessibility/performance checks, and no mandatory Next.js scaffold.
 
 ## Original MIT License
 
