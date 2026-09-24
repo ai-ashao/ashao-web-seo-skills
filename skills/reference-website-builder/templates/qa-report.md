@@ -1,5 +1,10 @@
 # 06 — QA Report
 
+## Source/output mapping
+
+| Source URL | site-key | page-key | Destination route |
+|---|---|---|---|
+
 ## Release review
 
 - Requested: yes / no
@@ -16,18 +21,18 @@
 | Viewport | Section/state | Reference expectation | Observed | Evidence | Disposition |
 |---|---|---|---|---|---|
 
-## Design language recalibration
-
-- Canonical artifact: `design-language.md`
-- Last recalibrated:
-- Corrected observations/tokens:
-- Intentional deviations recorded:
-- Production adaptation contract status:
-- Unresolved `Must replace` items:
+Disposition: spec defect / implementation defect / intentional adaptation / inaccessible / out of scope.
 
 ## Interaction QA
 
 ## Responsive QA
+
+## Output isolation and route preservation
+
+- Unique namespace per explicit page:
+- Destination routes preserved:
+- Existing pages unintentionally replaced:
+- Shared foundation regression status:
 
 ## Accessibility QA
 

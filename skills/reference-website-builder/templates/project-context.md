@@ -4,15 +4,14 @@
 
 ## Selected mode
 
-- Mode: reconstruction / adaptation / reconstruction-and-adaptation / owned-migration / audit-only
-- Scope: audit-only / design-and-plan / implement
+- Mode: analyze / prototype / adapt / full
+- High-fidelity kernel active: yes / no
 - Authorization statement:
 
 ## Release target
 
-- High-fidelity prototype only:
+- Prototype-only acceptable:
 - Production-ready required:
-- Design language path:
 - Optional release-review scope:
 
 ## Target implementation
@@ -24,17 +23,19 @@
 
 ## Explicit reference page URLs
 
-| URL | Intended role | Access status | In-scope page only |
-|---|---|---|---|
+| URL | Intended role | Access status | In-scope page only | site-key | page-key |
+|---|---|---|---|---|---|
 
-## Temporary asset policy
+## Output isolation plan
 
-- Temporary target assets allowed:
-- Raw archive path:
-- Temporary served path:
-- Asset map path:
-- Manifest path:
-- Optional release-review command:
+- Research root:
+- Screenshot/evidence root:
+- Component namespace:
+- Temporary asset root:
+- Destination route:
+- Existing route collision checked:
+- Approved shared foundation locations:
+- Existing pages/artifacts that must be preserved:
 
 ## Repository baseline
 
@@ -59,6 +60,22 @@
 - Analytics/consent:
 - SEO:
 - Deployment:
+
+## Temporary asset policy
+
+- Temporary target assets allowed:
+- Raw archive path:
+- Temporary served path:
+- Asset map path:
+- Manifest path:
+- Optional release-review command:
+
+## Parallelization decision
+
+- Foundation must remain sequential:
+- Independent components eligible for parallel builders:
+- Worktree/runtime support:
+- Dirty-tree constraints:
 
 ## Assumptions
 
