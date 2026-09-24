@@ -1,0 +1,26 @@
+name: Reference Website Builder Tests
+
+on:
+  pull_request:
+    paths:
+      - "skills/reference-website-builder/**"
+      - ".github/workflows/reference-website-builder-tests.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "skills/reference-website-builder/**"
+      - ".github/workflows/reference-website-builder-tests.yml"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile validator
+        run: python3 -m py_compile skills/reference-website-builder/scripts/validate_skill.py
+      - name: Validate skill package
+        run: python3 skills/reference-website-builder/scripts/validate_skill.py skills/reference-website-builder
