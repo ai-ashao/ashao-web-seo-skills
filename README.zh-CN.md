@@ -4,13 +4,14 @@
 
 这个仓库只保留**真正需要固定流程、证据契约或确定性脚本**的 Skill。目标不是让 Skill 越多越好，而是让 AI 在关键决策上少犯重复错误，同时保留正常推理空间。
 
-## 活跃 Skill（7 个）
+## 活跃 Skill（8 个）
 
 | Skill | 只回答什么 | 什么时候用 |
 |---|---|---|
 | `pain-mining` | **PAIN**：用户反复遇到什么问题、怎么凑合解决、有哪些产品缺口？ | 工具站选品、功能差异化、页面机会前置研究 |
 | `site-opportunity-scorecard` | **WHERE**：独立站、专区、单页还是不做？ | 架构尚未决定 |
 | `serp-siege` | **WHAT**：哪些 Page Families / SEO MVP 页面先做？ | 方向已经决定 |
+| `competitor-seo-page-pool` | **POOL**：竞品导出中哪些 canonical intent 应建设、优化、审查或延后，开发顺序是什么？ | 已有 Top Pages / Positions 等结构化导出，需要可复跑页池 |
 | `reference-website-builder` | **HOW**：参考页怎么分析、做原型、迁入真实项目？ | UI/交互/参考站任务 |
 | `technical-seo-audit` | **CRAWL**：搜索引擎能否正确发现、抓取、索引？ | 上线/迁移/技术 SEO 审计 |
 | `helpful-value-audit` | **VALUE**：页面是否真的解决用户任务？ | 工具页质量/竞品页差距 |
@@ -38,6 +39,9 @@ WHERE should it live?
 serp-siege
 WHAT should we build?
        ↓
+competitor-seo-page-pool（仅在结构化导出需要 canonical 实例页池时）
+POOL: what should be built, optimized, reviewed, or deferred?
+       ↓
 reference-website-builder
 HOW should important pages work?
        ↓
@@ -51,6 +55,8 @@ Launch / iterate from GSC and product data
 ```
 
 `pain-mining` 是 **SEO 之前的用户证据层**。它可以输出 Pain Graph、Workaround Chain、Feature Gap 和 `PAGE_CANDIDATE`，但不能把 Reddit 里的重复讨论当成搜索量证据。页面候选仍需在下游用竞品 Top Pages、Ahrefs/Semrush 和 SERP 验证。
+
+`competitor-seo-page-pool` 是结构化竞品导出的窄流程：已有 Top Pages / Positions，且需要多次运行仍稳定的 canonical intent 页池时使用。更广泛的实时竞品、SERP、产品功能与路线图研究继续使用 `serp-siege`；默认不要同时运行两者。
 
 `web-asset-pipeline` 在任何需要生产素材的阶段按需调用。
 
@@ -70,6 +76,7 @@ Launch / iterate from GSC and product data
 python3 -B skills/pain-mining/scripts/score_evidence.py skills/pain-mining/evals/tool-site-evidence-sample.json
 python3 -B -m unittest discover -s skills/site-opportunity-scorecard/tests -v
 python3 -B -m unittest discover -s skills/serp-siege/tests -v
+python3 -B -m skillforge validate skills/competitor-seo-page-pool
 python3 -B skills/reference-website-builder/scripts/validate_skill.py skills/reference-website-builder
 python3 -B -m unittest discover -s skills/helpful-value-audit/tests -v
 python3 -B -m unittest discover -s skills/technical-seo-audit/tests -v

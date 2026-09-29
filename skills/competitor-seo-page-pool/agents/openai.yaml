@@ -1,0 +1,4 @@
+interface:
+  display_name: "Competitor SEO Page Pool"
+  short_description: "Turn competitor CSV exports into a stable SEO MVP page pool"
+  default_prompt: "Use $competitor-seo-page-pool to turn these competitor CSV exports into a deduplicated SEO MVP page pool and implementation spec."
