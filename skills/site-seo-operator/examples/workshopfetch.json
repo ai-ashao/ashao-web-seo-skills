@@ -1,0 +1,13 @@
+{
+  "site": "https://workshopfetch.com",
+  "repository": "ai-ashao/steamworkshopdl",
+  "business_model": "ads-tool-planned",
+  "target_market": "US/en; other locales independently",
+  "search_type": "web",
+  "ship_mode": "pr-only",
+  "indexability_policy": "AGENTS.md + current i18n/SEO route registry; dynamic results and base game pages excluded",
+  "forbidden_changes": ["Steam file proxy/hosting", "Steam ownership bypass claims", "unauthorized ads", "blind locale expansion", "automatic noindex/redirects"],
+  "tests": ["npm test", "npm run build", "existing SEO E2E as applicable"],
+  "primary_kpis": ["GSC web clicks", "GSC impressions", "qualified indexed page coverage; verify in GSC separately", "advertising revenue only when verified"],
+  "source_refs": ["repo:AGENTS.md", "repo:app/sitemap.ts", "https://workshopfetch.com/sitemap.xml"]
+}
