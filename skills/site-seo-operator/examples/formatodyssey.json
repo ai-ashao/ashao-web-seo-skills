@@ -1,0 +1,13 @@
+{
+  "site": "https://formatodyssey.com",
+  "repository": "ai-ashao/format-odyssey",
+  "business_model": "ad-free tool/reference at current release",
+  "target_market": "US/en",
+  "search_type": "web",
+  "ship_mode": "pr-only",
+  "indexability_policy": "authored release matrix + effectiveIndexable; 50 launch URLs, other formats require fact and quality gates",
+  "forbidden_changes": ["invent technical facts", "auto-release 200 candidate pages", "invent hreflang", "change legal indexability", "enable advertising", "change product modes"],
+  "tests": ["pnpm verify", "pnpm launch:audit when applicable", "technical-seo-audit", "helpful-value-audit"],
+  "primary_kpis": ["GSC web impressions", "GSC web clicks", "verified indexed pages", "useful task completion"],
+  "source_refs": ["repo:AGENTS.md", "repo:content/release-matrix.json", "https://formatodyssey.com/sitemap.xml"]
+}
