@@ -1,0 +1,4 @@
+interface:
+  display_name: "Site SEO Operator"
+  short_description: "Run evidence-backed, PR-only SEO operations on existing sites."
+  default_prompt: "Use $site-seo-operator to inspect this live site's repository, current SEO evidence, and post-launch opportunities. Reuse existing specialist audits and propose only reviewable changes."
