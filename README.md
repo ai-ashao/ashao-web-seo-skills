@@ -17,6 +17,10 @@ This repository keeps only workflows that benefit from fixed evidence contracts,
 | `helpful-value-audit` | **VALUE** does the page genuinely complete the user's task? |
 | `web-asset-pipeline` | **ASSETS** how should production visuals be prepared, tracked, and integrated? |
 
+## Post-launch orchestration (optional, not a ninth core Skill)
+
+- `site-seo-operator` — **OPERATE** a live site: compare first-party GSC windows, prioritize proven page improvements, reuse `technical-seo-audit` and `helpful-value-audit`, record repo-local evidence, and ship **review-only PRs**. Unlike `serp-siege` and `competitor-seo-page-pool`, it owns the *post-launch feedback loop* rather than prelaunch market/page selection. See [skill](skills/site-seo-operator/SKILL.md) and [pilot baseline](skills/site-seo-operator/examples/pilot-baseline-2026-10-14.md).
+
 ## Consolidated / retired
 
 - `downloader-opportunity-radar` -> `site-opportunity-scorecard` downloader profile.
