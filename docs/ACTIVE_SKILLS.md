@@ -5,6 +5,7 @@
 | Architecture decision | `site-opportunity-scorecard` | Final SEO page matrix |
 | SEO MVP planning | `serp-siege` | Re-decide whether the project should exist |
 | Reference UI analysis/prototype/adaptation | `reference-website-builder` | Keyword-market sizing |
+| Existing UI screenshot/fix/recheck loop | `ui-art-direction-loop` | Reference reconstruction, new product features, or inferring function/data correctness from screenshots |
 | Crawl/index technical audit | `technical-seo-audit` | Helpfulness or traffic claims |
 | Page user-value audit | `helpful-value-audit` | Market ATTACK/SKIP decisions |
 | Production visual assets | `web-asset-pipeline` | General UI strategy |

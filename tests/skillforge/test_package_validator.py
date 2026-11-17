@@ -475,6 +475,7 @@ class CurrentRepositorySkillTests(unittest.TestCase):
             "serp-siege",
             "site-opportunity-scorecard",
             "technical-seo-audit",
+            "ui-art-direction-loop",
             "web-asset-pipeline",
         }
         actual = {path.name for path in skills_root.iterdir() if (path / "SKILL.md").is_file()}

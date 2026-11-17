@@ -1,0 +1,4 @@
+interface:
+  display_name: "截图美术打磨"
+  short_description: "固定截图、独立美术审阅、修复与复查，直到只剩轻微画面问题"
+  default_prompt: "使用 $ui-art-direction-loop 打磨当前站点 UI：固定场景截图，交给只看截图的子 Agent 审阅，修复后复查，直到已审场景只剩 P2 小问题。"

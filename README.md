@@ -4,7 +4,7 @@ Web building and SEO Skills curated by [ashao](https://github.com/ai-ashao).
 
 This repository keeps only workflows that benefit from fixed evidence contracts, deterministic validation, or a genuinely separate decision stage. More Skills are not inherently better; unnecessary Skills constrain normal model reasoning and create routing overlap.
 
-## Active Skills (8)
+## Active Skills (9)
 
 | Skill | Core question |
 |---|---|
@@ -13,6 +13,7 @@ This repository keeps only workflows that benefit from fixed evidence contracts,
 | `serp-siege` | **WHAT** Page Families and SEO MVP entrances should be built first? |
 | `competitor-seo-page-pool` | **POOL** which canonical page intents from supplied competitor exports should be built, optimized, reviewed, or deferred, and in what reproducible order? |
 | `reference-website-builder` | **HOW** should reference patterns be analyzed, prototyped, or adapted? |
+| `ui-art-direction-loop` | **POLISH** which visible UI problems remain after independent screenshot review, fixes, and same-scene rechecks? |
 | `technical-seo-audit` | **CRAWL** can search engines correctly discover/crawl/index the public surface? |
 | `helpful-value-audit` | **VALUE** does the page genuinely complete the user's task? |
 | `web-asset-pipeline` | **ASSETS** how should production visuals be prepared, tracked, and integrated? |
@@ -32,6 +33,7 @@ Idea / problem -> pain-mining (when pain/workaround evidence is needed)
               -> site-opportunity-scorecard -> serp-siege
               -> competitor-seo-page-pool (when structured exports need a canonical instance pool)
               -> reference-website-builder
+              -> ui-art-direction-loop (existing UI polish, when needed)
               -> technical-seo-audit -> helpful-value-audit -> launch/iterate
 ```
 
@@ -40,6 +42,8 @@ Idea / problem -> pain-mining (when pain/workaround evidence is needed)
 `competitor-seo-page-pool` is the narrow structured-export path. Use it when Top Pages and Positions files already exist and repeated runs need a stable canonical intent pool. Use `serp-siege` for broader live research and product/SEO roadmaps; do not run both by default.
 
 Use `web-asset-pipeline` only when production visual assets need processing or provenance.
+
+Use `ui-art-direction-loop` to refine an existing site's UI with fixed screenshots and a screenshot-only art-director subagent. It preserves the site's product/brand scope, separates visual findings from functional verification, and does not grant release permission. Use `reference-website-builder` for reference analysis, prototypes, or adaptations instead.
 
 ## New-Skill gate
 

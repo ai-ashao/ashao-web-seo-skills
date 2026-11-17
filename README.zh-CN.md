@@ -4,7 +4,7 @@
 
 这个仓库只保留**真正需要固定流程、证据契约或确定性脚本**的 Skill。目标不是让 Skill 越多越好，而是让 AI 在关键决策上少犯重复错误，同时保留正常推理空间。
 
-## 活跃 Skill（8 个）
+## 活跃 Skill（9 个）
 
 | Skill | 只回答什么 | 什么时候用 |
 |---|---|---|
@@ -13,6 +13,7 @@
 | `serp-siege` | **WHAT**：哪些 Page Families / SEO MVP 页面先做？ | 方向已经决定 |
 | `competitor-seo-page-pool` | **POOL**：竞品导出中哪些 canonical intent 应建设、优化、审查或延后，开发顺序是什么？ | 已有 Top Pages / Positions 等结构化导出，需要可复跑页池 |
 | `reference-website-builder` | **HOW**：参考页怎么分析、做原型、迁入真实项目？ | UI/交互/参考站任务 |
+| `ui-art-direction-loop` | **POLISH**：已有界面还剩哪些视觉问题，修复后是否收口？ | 固定截图、只看截图的美术子 Agent、修改与原场景复查 |
 | `technical-seo-audit` | **CRAWL**：搜索引擎能否正确发现、抓取、索引？ | 上线/迁移/技术 SEO 审计 |
 | `helpful-value-audit` | **VALUE**：页面是否真的解决用户任务？ | 工具页质量/竞品页差距 |
 | `web-asset-pipeline` | **ASSETS**：视觉素材如何安全、轻量、可追踪地上线？ | 需要处理生产素材时 |
@@ -45,6 +46,9 @@ POOL: what should be built, optimized, reviewed, or deferred?
 reference-website-builder
 HOW should important pages work?
        ↓
+ui-art-direction-loop（已有 UI 需要视觉打磨时）
+POLISH: what visible issues remain after fixes and rechecks?
+       ↓
 technical-seo-audit
 Can search engines crawl/index it?
        ↓
@@ -59,6 +63,8 @@ Launch / iterate from GSC and product data
 `competitor-seo-page-pool` 是结构化竞品导出的窄流程：已有 Top Pages / Positions，且需要多次运行仍稳定的 canonical intent 页池时使用。更广泛的实时竞品、SERP、产品功能与路线图研究继续使用 `serp-siege`；默认不要同时运行两者。
 
 `web-asset-pipeline` 在任何需要生产素材的阶段按需调用。
+
+`ui-art-direction-loop` 用于已有站点的截图驱动精修：固定场景 → 不接触源码的美术子 Agent → 修改 → 同场景复查，直到已审画面无未解决 P0/P1。它保留产品与品牌范围，分别报告视觉结论和功能验证，并遵守当前项目的提交/发布授权；参考分析、原型与竞品适配仍由 `reference-website-builder` 处理。
 
 ## 新建 Skill 的门槛
 
@@ -77,6 +83,7 @@ python3 -B skills/pain-mining/scripts/score_evidence.py skills/pain-mining/evals
 python3 -B -m unittest discover -s skills/site-opportunity-scorecard/tests -v
 python3 -B -m unittest discover -s skills/serp-siege/tests -v
 python3 -B -m skillforge validate skills/competitor-seo-page-pool
+python3 -B -m skillforge validate skills/ui-art-direction-loop
 python3 -B skills/reference-website-builder/scripts/validate_skill.py skills/reference-website-builder
 python3 -B -m unittest discover -s skills/helpful-value-audit/tests -v
 python3 -B -m unittest discover -s skills/technical-seo-audit/tests -v
